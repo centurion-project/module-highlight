@@ -16,13 +16,8 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     }
     
     protected $_referenceMap = array(
-        'feed' => array(
-            'columns' => 'feed_id',
-            'refColumns' => 'id',
-            'refTableClass' => 'Highlight_Model_DbTable_Feed'
-        ),
-        'content_type' => array(
-            'columns' => 'content_type_id',
+        'proxy_model' => array(
+            'columns' => 'proxy_model_id',
             'refColumns' => 'id',
             'refTableClass' => 'Core_Model_DbTable_ContentType'
         ),
