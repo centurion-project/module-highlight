@@ -1,0 +1,7 @@
+<form action="<?php echo $this->url(array('module'=>'highlight', 'controller' => 'admin-feed', 'action' => 'create-feed'), 'default');?>" method="post">
+    <textarea name="current_filter" style="display: none"></textarea>
+    <input type="hidden" value="<?php echo $this->model?>" name="model" />
+    <input type="hidden" value="" name="current_sortCol" />
+    <input type="hidden" value="" name="current_sortOrder" />
+    <input type="submit" value="Save as Feed for highlight" />
+</form>

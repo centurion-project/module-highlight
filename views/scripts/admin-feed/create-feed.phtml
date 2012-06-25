@@ -1,0 +1,7 @@
+<?php
+$this->form->addElements(array('_save' =>  array('submit', array('label' => $this->form->getTranslator()->_('Save')))));
+$this->form->getElement('_save')->setAttrib('class', 'save')
+                                    ->getDecorator('Label')
+                                    ->setOption('tagClass', 'hidden');
+                                    
+echo $this->form;

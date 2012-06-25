@@ -1,0 +1,87 @@
+<?php 
+$this->headScript()->appendFile('/cui/js/plugins/grid/grid.js');
+$this->headScript()->captureStart(); ?>
+<?php echo $this->partial('centurion/_style.phtml', $this); ?>
+<?php $this->headScript()->captureEnd(); ?>
+<?php $this->placeholder('headling_1')->captureStart(); ?>
+<h1><?php echo $this->translate('Manage highlight');?></h1>
+<div class="right">
+    <?php echo $this->placeholder('headling_1_button'); ?>
+</div>
+<?php $this->placeholder('headling_1')->captureEnd() ?>
+
+<?php $this->headScript()->captureStart(); ?>
+$(function(){
+    $('#autocomplete').autocomplete({
+       source: "<?php echo $this->url(array('action' => 'autocomplete', 'id' => $this->container->id));?>",
+       select: function(event, rws) {
+          $("#pk", $("#formAutocomplete")).val(rws.item.pk);
+          $("#model", $("#formAutocomplete")).val(rws.item.model);
+       }
+    });
+    
+    
+    $("#sortable").sortable(
+        { 
+            update : function () { 
+              $("#order", $("#orderForm")).val($('#sortable').sortable('serialize')); 
+            } 
+          }
+    );
+});
+<?php $this->headScript()->captureEnd(); ?>
+
+<style>
+    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; padding: 20px 10px; margin-bottom: 3px;
+    background-color: #efefef;}
+
+    #sortable li span { position: absolute; margin-left: -1.3em; }
+
+</style>
+
+<div id="grid">
+    <div class="grid-filter">
+        <div class="box"><h4>Ajouter</h4>
+            <div class="filter " id="filter-id-0">
+                <form id="formAutocomplete" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" method="post">
+                    <input type="text" name="autocomplete" id="autocomplete" value="">
+                    <input type="hidden" name="model" id="model" value="">
+                    <input type="hidden" name="pk" id="pk" value="">
+                    <input type="submit" value="Ajouter" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="grid-main" style="margin-right: 210px;">
+        <h2>Listing<span class="filter-list"></span></h2>
+        <div class="toolbar toolbar-top">
+        </div>
+        <ul id="sortable">
+                <?php 
+                foreach ($this->container->findDependentRowsetOrdered('row_set', 'position') as $row) :
+                ?>
+                <li id="rowId_<?php echo $row->id?>">
+                    <div>
+                        <div style="float: right"><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete'));?>">Delete</a></div>
+                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span><?php echo $this->container->getTitle($row->getProxy());?>
+                    </div>
+                </li>
+                <?php 
+                endforeach;
+                ?>
+        </ul>
+        <div class="toolbar toolbar-bottom">
+            <div class="pager">
+                <div class="pager-links">
+                    <div class="pager-info">
+                        <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id));?>" method="post" id="orderForm">
+                            <input type="hidden" name="order" id="order" value="" />
+                            <input type="submit" value="Save" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

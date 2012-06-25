@@ -1,0 +1,12 @@
+.DS_Store
+*.db
+*.sqlite
+.project
+.buildpath
+/.settings
+
+.*.un~
+.*.swp
+.idea/*
+*.*~
+*.done
