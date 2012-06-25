@@ -1,87 +1,122 @@
-<?php 
-$this->headScript()->appendFile('/cui/js/plugins/grid/grid.js');
-$this->headScript()->captureStart(); ?>
-<?php echo $this->partial('centurion/_style.phtml', $this); ?>
-<?php $this->headScript()->captureEnd(); ?>
-<?php $this->placeholder('headling_1')->captureStart(); ?>
-<h1><?php echo $this->translate('Manage highlight');?></h1>
-<div class="right">
-    <?php echo $this->placeholder('headling_1_button'); ?>
-</div>
-<?php $this->placeholder('headling_1')->captureEnd() ?>
-
+<?php $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->container->name . '</h1>') ?>
+<style type="text/css">
+    .hl-item {width: 275px; height: 100px;}
+</style>
 <?php $this->headScript()->captureStart(); ?>
+
+$(function() { 
+    $("a.help-add, a.help-edit").click(function() {
+        $(".hl-template").find(".hl-item").removeClass("hl-item-select");
+        $$ = $(this).parent().parent().parent(); // box highlight selected
+        $$.addClass("hl-item-select");
+        $("fieldset")
+            .show()
+            .find('input[name=position]').val($$.attr("id").substr(8,2));
+        
+        selectedPosition = $$.attr("id").substr(8,2);
+        return false;
+     });
+     
+     $("#sortable").CUI('sortable', 
+        { 
+            update : function () { 
+              $("#order", $("#orderForm")).val($('#sortable').sortable('serialize')); 
+              $("#save-order").removeAttr('disabled');
+            },
+            cursor: 'crosshair',
+            handle: $('li:not(.not-sortable)')
+          }
+    );
+});
+
 $(function(){
-    $('#autocomplete').autocomplete({
+    $('#autocomplete').CUI('autocomplete', {
        source: "<?php echo $this->url(array('action' => 'autocomplete', 'id' => $this->container->id));?>",
        select: function(event, rws) {
           $("#pk", $("#formAutocomplete")).val(rws.item.pk);
           $("#model", $("#formAutocomplete")).val(rws.item.model);
        }
     });
-    
-    
-    $("#sortable").sortable(
-        { 
-            update : function () { 
-              $("#order", $("#orderForm")).val($('#sortable').sortable('serialize')); 
-            } 
-          }
-    );
 });
+
+var url = {'article' : "<?php echo $this->url(array('module' => 'vinsoc', 'controller' => 'admin-article', 'action' => 'new', '_next' => urlencode($this->url(array('id' => $this->container->id, 'action' => 'add', 'position' => '___position___', 'pk' => '___pk___', 'model' => 'Vinsoc_Model_DbTable_Row_Article', 'returnto' => urlencode(urlencode(urlencode(urlencode($this->url())))))))))?>"
+        };
+      
+      
+$(function(){
+    $("#highlightCreate").live('click', function(){
+        $(this).attr('href', url[$('#highlight-model').val()].replace('___position___', selectedPosition));
+        
+        return true;
+    });
+});
+
+
+
 <?php $this->headScript()->captureEnd(); ?>
 
-<style>
-    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; padding: 20px 10px; margin-bottom: 3px;
-    background-color: #efefef;}
-
-    #sortable li span { position: absolute; margin-left: -1.3em; }
-
-</style>
-
-<div id="grid">
-    <div class="grid-filter">
-        <div class="box"><h4>Ajouter</h4>
-            <div class="filter " id="filter-id-0">
-                <form id="formAutocomplete" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" method="post">
-                    <input type="text" name="autocomplete" id="autocomplete" value="">
-                    <input type="hidden" name="model" id="model" value="">
-                    <input type="hidden" name="pk" id="pk" value="">
-                    <input type="submit" value="Ajouter" />
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="grid-main" style="margin-right: 210px;">
-        <h2>Listing<span class="filter-list"></span></h2>
-        <div class="toolbar toolbar-top">
-        </div>
-        <ul id="sortable">
-                <?php 
-                foreach ($this->container->findDependentRowsetOrdered('row_set', 'position') as $row) :
+        <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" >
+            <fieldset>
+                <legend><?php echo $this->translate('Add a highlight@backoffice,vinsoc')?></legend>
+                <div class="float-left">
+                    <input type="hidden" name="position" id="position" value="" />
+                    <h3><?php echo $this->translate('Choose a content@backoffice,vinsoc')?></h3>
+                    <input type="text" value="" id="autocomplete" name="autocomplete" value=""
+                    class="ui-autocomplete-input ui-autocomplete-loading" role="textbox" aria-haspopup="true">
+                    <input type="hidden" value="" id="model" name="model">
+                    <input type="hidden" value="" id="pk" name="pk">
+                    <input class="_add" type="submit" value="Add"><div class="clear"></div>
+                </div>
+                <div style="margin-left:400px;"> 
+                    <h3>... or create one</h3>
+                    <select class="select-normal" name="type" style="margin:5px 0" id="highlight-model">
+                            <option value="article">Article</option>
+                    </select>
+                    <a id="highlightCreate" class="btn btn-normal-nicy" href="#"><span class="btn-style btn-bg-gray btn-txt-black btn-icon-black"><span class="btn-icon plus"></span> <?php echo $this->translate('Create@backoffice,highlight')?></span></a>                    
+                </div>                
+            </fieldset>
+        </form>
+        <div>
+        <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" method="post" id="orderForm">
+            <ul class="hl-template" id="sortable">
+                <?php
+                $row_set = array();
+                $maxPosition = 0;
+                foreach ($this->container->row_set as $row) :
+                $maxPosition = max($maxPosition, $row->position);
                 ?>
-                <li id="rowId_<?php echo $row->id?>">
-                    <div>
-                        <div style="float: right"><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete'));?>">Delete</a></div>
-                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span><?php echo $this->container->getTitle($row->getProxy());?>
-                    </div>
-                </li>
-                <?php 
-                endforeach;
-                ?>
-        </ul>
-        <div class="toolbar toolbar-bottom">
-            <div class="pager">
-                <div class="pager-links">
-                    <div class="pager-info">
-                        <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id));?>" method="post" id="orderForm">
-                            <input type="hidden" name="order" id="order" value="" />
-                            <input type="submit" value="Save" />
-                        </form>
+                    <li class="hl-item" id="hl-item-<?php echo ($row->position);?>" style="position:relative">
+                        <?php if ($row === null): ?>
+                        <em>Empty</em>
+                        <?php else: ?>
+                        <input type="hidden" name="rowId[]" value="<?php echo $row->id?>" />
+                        <h3><?php echo $this->container->getTitle($row->getProxy());?></h3>
+                        <?php endif; ?>
+                        <ul class="actions">
+                            <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil">Edit</span></a></li>
+                            <?php if ($row !== null): ?>
+                            <li><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete', 'returnto' => urlencode($this->url())));?>" class="help help-remove" title="Remove" onclick="return confirm('<?php echo $this->translate('Are you sure to do this ?');?>');"><span class="ui-icon ui-icon-close">Remove</span></a></li>
+                            <?php endif;?>
+                        </ul>    
+                    </li>
+                <?php endforeach; ?>
+                
+                    <li class="hl-item not-sortable" id="hl-item-<?php echo ($maxPosition + 1);?>" style="position:relative">
+                        <em><?php echo $this->translate('Empty@backoffice,vinsoc')?></em>
+                        <ul class="actions">
+                            <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil"><?php echo $this->translate('Edit@backoffice,vinsoc')?></span></a></li>
+                        </ul>
+                    </li>
+            </ul>
+            <div class="save-order">
+                <div class="pager">
+                    <div class="pager-links">
+                        <div class="pager-info">
+                            <input type="submit" value="Save new order" disabled id="save-order" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="clear">&nbsp;</div>
+        </form>
     </div>
-</div>
