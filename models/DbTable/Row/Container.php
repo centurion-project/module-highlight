@@ -17,7 +17,6 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
     {
         if (null === $this->_highlightModel) {
             
-            //$this->_highlightModel = Centurion_Db::getSingletonByClassName($this->proxy_model->name);
             $this->_highlightModel = $this->getTable();
         }
         
