@@ -11,7 +11,7 @@ class Highlight_Test_Model_DbTable_Crawlable extends Asset_Model_DbTable_Abstrac
             `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
             `title` VARCHAR( 255 ) NOT NULL,
             `slug` VARCHAR( 255 ) DEFAULT NULL,
-            `DESCRIPTION` VARCHAR( 255 ) NULL
+            `description` VARCHAR( 255 ) NULL
             ) ENGINE = INNODB;
 EOS
         );
