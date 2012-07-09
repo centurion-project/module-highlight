@@ -49,6 +49,12 @@ class Highlight_Test_Crawler_CrawlerTest extends PHPUnit_Framework_TestCase
                 'foo',
                 false
             ),
+            array(
+                array('title' => 'myTitle bar', 'description' => 'myDescription'),
+                'title',
+                'foo bar',
+                true
+            ),
         );
     }
 
@@ -92,6 +98,7 @@ class Highlight_Test_Crawler_CrawlerTest extends PHPUnit_Framework_TestCase
     public function assertNotInCollection(array $collection, Centurion_Db_Table_Row_Abstract $row)
     {
         foreach ($collection as $r) {
+            var_dump(gettype($r));
             if($r->id == $row->id) {
                 if(get_class($row->getTable()) === get_class($r->getTable())) {
                     $this->fail('Found row in collection when none was expected');
