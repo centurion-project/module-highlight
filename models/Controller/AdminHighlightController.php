@@ -32,6 +32,8 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function indexAction()
     {
         $this->view->containers = $this->getContainers();
+
+        $this->render('admin-highlight/index', true, true);
     }
 
     public function getContainers()
@@ -107,8 +109,8 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         if($backUrl = $this->_getParam('returnafter', false)) {
             $this->view->backUrl = urldecode($backUrl);
         }
+        $this->render('admin-highlight/get', true, true);
 
-        //Zend_Debug::dump(get_class($this->getFrontController()->getRouter()->getRoute('default')));die;
     }
     
     public function addAction()
