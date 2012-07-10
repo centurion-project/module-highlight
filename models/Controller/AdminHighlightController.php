@@ -2,6 +2,7 @@
 abstract class Highlight_Model_Controller_AdminHighlightController extends Centurion_Controller_Action
 {
     protected $_container = null;
+    protected $_select = null;
     
     public function preDispatch()
     {
@@ -30,7 +31,20 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     
     public function indexAction()
     {
-        $this->view->containers = Centurion_Db::getSingleton('highlight/container')->fetchAll();
+        $this->view->containers = $this->getContainers();
+    }
+
+    public function getContainers()
+    {
+        $select = $this->getSelect();
+        return $select->fetchAll();
+    }
+
+    public function getSelect()
+    {
+        if($this->_select) return $this->_select;
+        $this->_select = Centurion_Db::getSingleton('highlight/container')->select(true);
+        return $this->_select;
     }
     
     protected function _getContainer($redirect404 = true)
