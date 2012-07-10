@@ -44,6 +44,7 @@ class Highlight_Test_Model_ContainerTest extends PHPUnit_Framework_TestCase
 
         try {
             $c2 = $table->createWithName(array('bidule'));
+            $c2->delete();
             $this->fail('Could create container with something else than a string');
         }
         catch(InvalidArgumentException $e ) {
@@ -64,6 +65,30 @@ class Highlight_Test_Model_ContainerTest extends PHPUnit_Framework_TestCase
 
         try {
             $c2 = $table->createWithProxy($row);
+            $c2->delete();
+            $this->fail('Could create a container with same proxy');
+        }
+        catch(InvalidArgumentException $e) {
+        }
+        
+        $c1->delete();
+    }
+
+    public function testCreateContainerWithNameAndProxy()
+    {
+        $table = self::getTable();
+        $simpleTable = Centurion_Db::getSingleton('asset/simple');
+        list($row,) = $simpleTable->getOrCreate(array('title'=>'testCreateContainerWithNameAndProxy'));
+
+        $c1 = $table->createWithNameAndProxy('foobar', $row);
+        $this->assertNotNull($c1, 'Could not create container from name and proxy');
+        $this->assertEquals($c1->getProxy()->getTableClass(), $row->getTableClass(), 'attached proxy is of a different type');
+        $this->assertEquals($c1->getProxy()->id, $row->id, 'attached proxy is different from created row');
+        $this->assertEquals('foobar', $c1->name, 'container created with different name');
+
+        try {
+            $c2 = $table->createWithProxy($row);
+            $c2->delete();
             $this->fail('Could create a container with same proxy');
         }
         catch(InvalidArgumentException $e) {

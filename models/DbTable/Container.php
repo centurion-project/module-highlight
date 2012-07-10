@@ -29,7 +29,9 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
             throw new InvalidArgumentException('Name must be a string. '.gettype($name).' given');
         }
 
-        list($container, $created) = $this->getOrCreate(array('name'=> $name));
+        list($container, $created) = $this->getOrCreate(array(
+            'name'                  => $name,
+        ));
         if(!$created) {
             throw new InvalidArgumentException('There already is a container by that name');
         }
@@ -41,12 +43,35 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     {
         $modelName = $instance->getTableClass();
         list($model, $created) = Centurion_Db::getSingleton('core/content_type')->getOrCreate(array('name'=>$modelName));
-        list($container, $created) = $this->getOrCreate(array('proxy_content_type_id'=>$model->id, 'proxy_pk'=>$instance->pk));
+        list($container, $created) = $this->getOrCreate(array(
+            'proxy_content_type_id' => $model->id,
+            'proxy_pk'              => $instance->pk
+        ));
         if(!$created) {
             throw new InvalidArgumentException('There already is a container by that proxy');
         }
 
 
+
+        return $container;
+    }
+
+    public function createWithNameAndProxy($name, Centurion_Db_Table_Row_Abstract $instance)
+    {
+        if(!is_string($name)) {
+            throw new InvalidArgumentException('Name must be a string. '.gettype($name).' given');
+        }
+        $modelName = $instance->getTableClass();
+        list($model, $created) = Centurion_Db::getSingleton('core/content_type')->getOrCreate(array('name'=>$modelName));
+        list($container, $created) = $this->getOrCreate(array(
+            'name'                  => $name,
+            'proxy_content_type_id' => $model->id,
+            'proxy_pk'              => $instance->pk
+        ));
+
+        if (!$created) {
+            throw new InvalidArgumentException('There already is a container by that name for that proxy');
+        }
 
         return $container;
     }
