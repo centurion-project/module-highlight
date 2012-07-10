@@ -95,7 +95,7 @@ $(function(){
                         <ul class="actions">
                             <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil">Edit</span></a></li>
                             <?php if ($row !== null): ?>
-                            <li><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete', 'returnto' => urlencode($this->url())));?>" class="help help-remove" title="Remove" onclick="return confirm('<?php echo $this->translate('Are you sure to do this ?');?>');"><span class="ui-icon ui-icon-close">Remove</span></a></li>
+                            <li><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete', 'returnto' => $this->url()));?>" class="help help-remove" title="Remove" onclick="return confirm('<?php echo $this->translate('Are you sure to do this ?');?>');"><span class="ui-icon ui-icon-close">Remove</span></a></li>
                             <?php endif;?>
                         </ul>    
                     </li>
