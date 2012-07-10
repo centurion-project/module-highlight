@@ -23,9 +23,8 @@ abstract class Highlight_Model_Crawler_Abstract
     
     public function friendlyName(Centurion_Db_Table_Row_Abstract $row)
     {
-        $meta = $row->getTable()->info(Centurion_Db_Table_Abstract::METADATA);
+        $meta = $row->getTable()->getMeta();
         $verboseName = $meta['verboseName'];
-        $verboseName = json_encode($meta);
         return sprintf('(%s) %s', $verboseName, $row->__toString());
     }
     
