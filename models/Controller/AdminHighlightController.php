@@ -51,14 +51,18 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     {
         $container = $this->_getContainer();
         
-        $highlight = $container->getHighlightModel();
-        $resultArray = $highlight->autocomplete($this->_getParam('term'), $container);
+        $crawler = $this->getCrawler();
+        $resultArray = $crawler->autocomplete($this->_getParam('term'));
 
         $response = $this->getResponse();
         
         $this->_helper->Json($resultArray);
         
-//        $response->appendBody(Zend_Json::encode($resultArray));
+    }
+
+    public function getCrawler()
+    {
+        return new Highlight_Model_Crawler_Generic();
     }
     
     public function getAction()

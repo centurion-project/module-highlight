@@ -20,6 +20,32 @@ abstract class Highlight_Model_Crawler_Abstract
      */
     abstract public function crawl(array $params = null); 
 
+    
+    public function friendlyName(Centurion_Db_Table_Row_Abstract $row)
+    {
+        $meta = $row->getTable()->info(Centurion_Db_Table_Abstract::METADATA);
+        $verboseName = $meta['verboseName'];
+        $verboseName = json_encode($meta);
+        return sprintf('(%s) %s', $verboseName, $row->__toString());
+    }
+    
+    public function autocomplete($terms, $resultSet = null)
+    {
+        if(null === $resultSet) {
+            $resultSet = $this->crawl(array('terms'=>$terms));
+        }
+
+        $res = array();
+        foreach ($resultSet as $row) {
+            $res[] = array(
+                'label'     => $this->friendlyName($row),
+                'model'     => get_class($row->getTable()),
+                'pk'        => $row->pk
+            );
+        }
+        return $res;
+    }
+
 
     public function crawlTable(Centurion_Db_Table_Abstract $table, array $fields, $terms)
     {
