@@ -70,8 +70,23 @@ class Highlight_Test_Model_ContainerTest extends PHPUnit_Framework_TestCase
         }
         catch(InvalidArgumentException $e) {
         }
-        
+
         $c1->delete();
+    }
+
+    /** 
+     * @depends testCreateContainerWithProxy
+     */
+    public function testFindOneByProxy()
+    {
+        $table = self::getTable();
+        $simpleTable = Centurion_Db::getSingleton('asset/simple');
+        list($row,) = $simpleTable->getOrCreate(array('title'=>'testCreateContainerWithProxy'));
+
+        $container = $table->createWithProxy($row);
+        $found = $table->findOneByProxy($row);
+        $this->assertNotNull($found, 'found no container from proxy');
+        $this->assertEquals($found->id, $container->id, 'could not find same container from proxy');
     }
 
     public function testCreateContainerWithNameAndProxy()
