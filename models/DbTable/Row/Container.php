@@ -6,6 +6,7 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
     public function init()
     {
         $this->_specialGets['row_set'] = 'getRowSet';
+        $this->_specialGets['title'] = 'titleGetter';
     }
     
     public function getRowSet()
@@ -21,6 +22,16 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
     public function getTitle($row)
     {
         return $row->__toString();
+    }
+
+    public function titleGetter()
+    {
+        if(null === $this->name) {
+            return $this->getTitle($this->getProxy());
+        }
+        else {
+            return $this->name;
+        }
     }
 
 }

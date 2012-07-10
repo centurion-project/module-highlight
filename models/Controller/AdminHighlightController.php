@@ -54,11 +54,33 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
                 $this->_container = $container;
             } else if ($id = $this->_getParam('id', null)) {
                 $this->_container = $this->_helper->getObjectOr404('highlight/container', array('id' =>  $this->_getParam('id')));
+            } else if ($this->_hasProxyParam()) {
+                $proxy = $this->_getProxy();
+                $container = Centurion_Db::getSingleton('highlight/container')->findOneByProxy($proxy);
+                if(!is_null($container)) {
+                    $this->_container = $container;
+                }
+                else {
+                    $this->_container = Centurion_Db::getSingleton('highlight/container')->createWithProxy($proxy);
+                }
             } else {
                 throw new Zend_Controller_Action_Exception(sprintf('No container given'), 404);
             }
         }
         return $this->_container;
+    }
+
+    protected function _getProxy()
+    {
+        $ctype = Centurion_Db::getSingleton('core/content_type')->findOneById($this->_getParam('proxy_content_type_id'));
+        $model = Centurion_Db::getSingletonByClassName($ctype->name);
+        $row = $model->findOneById($this->_getParam('proxy_pk'));
+        return $row;
+    }
+
+    protected function _hasProxyParam()
+    {
+        return ($this->_getParam('proxy_pk', false) && $this->_getParam('proxy_content_type_id'));
     }
     
     public function autocompleteAction()
@@ -82,6 +104,11 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function getAction()
     {
         $this->view->container = $this->_getContainer();
+        if($backUrl = $this->_getParam('returnafter', false)) {
+            $this->view->backUrl = urldecode($backUrl);
+        }
+
+        //Zend_Debug::dump(get_class($this->getFrontController()->getRouter()->getRoute('default')));die;
     }
     
     public function addAction()

@@ -1,4 +1,11 @@
-<?php $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->container->name . '</h1>') ?>
+<?php
+    if(isset($this->backUrl)) {
+        $this->placeholder('headling_1')->set('<h1>Manage highlist of: <a href="'.$this->backUrl.'">'.$this->container->title.'</a></h1>');
+    }
+    else {
+        $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->container->title . '</h1>');
+    }
+?>
 <style type="text/css">
     .hl-item {width: 275px; height: 100px;}
 </style>
@@ -39,7 +46,7 @@ $(function(){
     });
 });
 
-var url = {'article' : "<?php echo $this->url(array('module' => 'vinsoc', 'controller' => 'admin-article', 'action' => 'new', '_next' => urlencode($this->url(array('id' => $this->container->id, 'action' => 'add', 'position' => '___position___', 'pk' => '___pk___', 'model' => 'Vinsoc_Model_DbTable_Row_Article', 'returnto' => urlencode(urlencode(urlencode(urlencode($this->url())))))))))?>"
+var url = {'article' : "<?php echo $this->url(array('module' => 'vinsoc', 'controller' => 'admin-article', 'action' => 'new', '_next' => $this->url(array('id' => $this->container->id, 'action' => 'add', 'position' => '___position___', 'pk' => '___pk___', 'model' => 'Vinsoc_Model_DbTable_Row_Article', 'returnto' => $this->url()))))?>"
         };
       
       
@@ -77,7 +84,7 @@ $(function(){
             </fieldset>
         </form>
         <div>
-        <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" method="post" id="orderForm">
+        <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => $this->url()));?>" method="post" id="orderForm">
             <ul class="hl-template" id="sortable">
                 <?php
                 $row_set = array();
