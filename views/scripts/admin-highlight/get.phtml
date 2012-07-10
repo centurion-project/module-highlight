@@ -55,7 +55,7 @@ $(function(){
 
 <?php $this->headScript()->captureEnd(); ?>
 
-        <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => urlencode($this->url())));?>" >
+        <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => $this->url()));?>" >
             <fieldset>
                 <legend><?php echo $this->translate('Add a highlight@backoffice,vinsoc')?></legend>
                 <div class="float-left">
