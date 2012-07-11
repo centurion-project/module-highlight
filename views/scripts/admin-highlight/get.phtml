@@ -71,31 +71,8 @@ $(function(){
         </div>
         <?php endif ?>
         <?php echo $this->autoCompleteForm ?>
-        <div class="clear"></div>
-        <?php if(false) : ?>
-        <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => $this->url()));?>" >
-            <fieldset>
-                <legend><?php echo $this->translate('Add a highlight@backoffice,vinsoc')?></legend>
-                <div class="float-left">
-                    <input type="hidden" name="position" id="position" value="" />
-                    <h3><?php echo $this->translate('Choose a content@backoffice,vinsoc')?></h3>
-                    <input type="text" value="" id="autocomplete" name="autocomplete" value=""
-                    class="ui-autocomplete-input ui-autocomplete-loading" role="textbox" aria-haspopup="true">
-                    <input type="hidden" value="" id="model" name="model">
-                    <input type="hidden" value="" id="pk" name="pk">
-                    <input class="_add" type="submit" value="Add"><div class="clear"></div>
-                </div>
-                <div style="margin-left:400px;"> 
-                    <h3>... or create one</h3>
-                    <select class="select-normal" name="type" style="margin:5px 0" id="highlight-model">
-                            <option value="article">Article</option>
-                    </select>
-                    <a id="highlightCreate" class="btn btn-normal-nicy" href="#"><span class="btn-style btn-bg-gray btn-txt-black btn-icon-black"><span class="btn-icon plus"></span> <?php echo $this->translate('Create@backoffice,highlight')?></span></a>                    
-                </div>                
-            </fieldset>
-        </form>
-        <?php endif ?>
     </div>
+    <div class="clear"></div>
     <div>
         <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => $this->url()));?>" method="post" id="orderForm">
             <ul class="hl-template" id="sortable">
@@ -111,11 +88,12 @@ $(function(){
                         <?php else: ?>
                         <input type="hidden" name="rowId[]" value="<?php echo $row->id?>" />
                         <h3><?php echo $this->container->getTitle($row->getProxy());?></h3>
+                        <div><?php echo $row->getBlockHtml() ?></div>
                         <?php endif; ?>
                         <ul class="actions">
                             <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil">Edit</span></a></li>
                             <?php if ($row !== null): ?>
-                            <li><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete', 'returnto' => $this->url()));?>" class="help help-remove" title="Remove" onclick="return confirm('<?php echo $this->translate('Are you sure to do this ?');?>');"><span class="ui-icon ui-icon-close">Remove</span></a></li>
+                            <li><a href="<?php echo $this->url(array('row_id' => $row->id, 'action' => 'delete', 'returnto' => $this->url()));?>" class="help help-remove" title="Remove" onclick="return confirm('<?php echo $this->translate('Are you sure you want to delete this?');?>');"><span class="ui-icon ui-icon-close">Remove</span></a></li>
                             <?php endif;?>
                         </ul>    
                     </li>

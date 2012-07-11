@@ -103,6 +103,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
      */
     protected function _getProxy()
     {
+        if(!$this->_hasProxyParam()) {
+            return null;
+        }
         $ctype = Centurion_Db::getSingleton('core/content_type')->findOneById($this->_getParam('proxy_content_type_id'));
         $model = Centurion_Db::getSingletonByClassName($ctype->name);
         $row = $model->findOneById($this->_getParam('proxy_pk'));
@@ -138,6 +141,10 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
      */
     public function getCrawler()
     {
+        $proxy = $this->_getProxy();
+        if(!empty($proxy) && $proxy instanceof Highlight_Traits_Model_Row_HasHighlights_Interface) {
+            return $proxy->getCrawler();
+        }
         return new Highlight_Model_Crawler_Generic();
     }
 
