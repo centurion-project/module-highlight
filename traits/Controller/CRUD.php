@@ -2,6 +2,7 @@
 
 /**
  * A traits that add functionnality to crud controllers in order to manage highlights
+ * it mainly adds a link to manage the highlights of a given row in the grid view
  **/
 class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_Abstract
 {

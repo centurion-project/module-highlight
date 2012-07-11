@@ -10,6 +10,10 @@ class Highlight_Bootstrap extends Centurion_Application_Module_Bootstrap
 
     }
 
+    /**
+     * reads the config file for named containers
+     * if some don't already exist in base, create them
+     */
     public function _initContainers()
     {
         // creating all named highlights if they weren't already there

@@ -4,6 +4,12 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     protected $_name = 'highlight_container';
     protected $_rowClass = 'Highlight_Model_DbTable_Row_Container';
     
+    /**
+     * adds a row to a given container at the given position
+     * @param $containers the container to which we add the row
+     * @param $row the row to which we need a reference added to this container
+     * @param $position the position at which we want the row to be in the collection
+     */
     public function addRow($container, $row, $position)
     {
         if ($container instanceof Centurion_Db_Table_Row_Abstract) {
@@ -23,6 +29,13 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
         ),
     );
 
+    /** 
+     * create a container with the given name
+     * will throw if a container of that name already exists
+     * @param $name the name we want our container to have
+     * @throws InvalidArgumentException
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     public function createWithName($name)
     {
         if(!is_string($name)) {
@@ -39,6 +52,13 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
         return $container;
     }
 
+    /**
+     * create a container with the given proxy
+     * will throw if a container with that proxy already exists
+     * @param $instance the model to which we want to attach this container
+     * @throws InvalidArgumentException
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     public function createWithProxy(Centurion_Db_Table_Row_Abstract $instance)
     {
         $modelName = $instance->getTableClass();
@@ -56,6 +76,11 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
         return $container;
     }
 
+    /**
+     * not used yet.
+     * will be used if the spec ever says we need more than one container for a given proxy
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     public function createWithNameAndProxy($name, Centurion_Db_Table_Row_Abstract $instance)
     {
         if(!is_string($name)) {
@@ -77,6 +102,12 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     }
 
 
+    /**
+     * find a container with the given proxy
+     * this should return only one row.
+     * @param $row the proxy attached to the container we are looking for
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     public function findOneByProxy(Centurion_Db_Table_Row_Abstract $row)
     {
         $ctype = Centurion_Db::getSingleton('core/content_type')->findOneByName(get_class($row->getTable()));

@@ -11,6 +11,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return parent::preDispatch();
     }
     
+    /** 
+     * @deprecated
+     */
     public function actions($row)
     {
         return '<a href="'.$this->view->url(array('id' => $row->id, 'module' => 'highlight', 'controller' => 'admin-highlight'), 'rest', true).'">'.$this->view->translate('Manage highlight').'</a>';
@@ -21,6 +24,10 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         
     }
     
+    /**
+     * implements callback url logic. it looks for a `returnto` parameter and sets any relevant redirection
+     * in the response
+     */
     protected function _returnTo()
     {
         if (null !== $this->_getParam('returnto', null))
@@ -36,12 +43,19 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         $this->render('admin-highlight/index', true, true);
     }
 
+    /**
+     * returns a colection of containers to list
+     */
     public function getContainers()
     {
         $select = $this->getSelect();
         return $select->fetchAll();
     }
 
+    /**
+     * returns a select object to retrieve the containers from base
+     * @return Centurion_Db_Table_Select 
+     */
     public function getSelect()
     {
         if($this->_select) return $this->_select;
@@ -49,6 +63,15 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return $this->_select;
     }
     
+    /** 
+     * @tries to retrieve a container from the given uri parameters
+     * it searches in the following parameters
+     *
+     * a `container` parameter,  manually set and is an instance of a container
+     * the `id` parameter. it will retrieve it from base from that id
+     *`proxy_px` and `proxy_content_type_id` parameters, it will find a container linked to the described proxy model
+     * @parameter (boolean) $redirect404 redirect the request to a 404 error if no container is found
+     */
     protected function _getContainer($redirect404 = true)
     {
         if (!isset($this->_container)) {
@@ -72,6 +95,12 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return $this->_container;
     }
 
+    /**
+     * retrieve a content from base with the given query parameters
+     * it looks for the `proxy_pk` and `proxy_content_type_id` parameters to establish what content and content type
+     * it needs
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     protected function _getProxy()
     {
         $ctype = Centurion_Db::getSingleton('core/content_type')->findOneById($this->_getParam('proxy_content_type_id'));
@@ -80,6 +109,11 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return $row;
     }
 
+    /**
+     * detects if the necessary parameters to find a proxy object are present in the request
+     * looks for `proxy_pk` and `proxy_content_type_id`
+     * @return boolean
+     */
     protected function _hasProxyParam()
     {
         return ($this->_getParam('proxy_pk', false) && $this->_getParam('proxy_content_type_id'));
@@ -98,6 +132,10 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         
     }
 
+    /**
+     * returns the crawler to be used upon autocomplete action
+     * @return Highlight_Model_Crawler_Abstract
+     */
     public function getCrawler()
     {
         return new Highlight_Model_Crawler_Generic();

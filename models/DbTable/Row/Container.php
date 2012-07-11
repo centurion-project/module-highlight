@@ -9,21 +9,36 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         $this->_specialGets['title'] = 'titleGetter';
     }
     
+    /**
+     * get a rowset of the highlight items attached to this container
+     * @return Centurion_Db_Table_Rowset_Abstract
+     */
     public function getRowSet()
     {
         return Centurion_Db::getSingleton('highlight/row')->select(true)->filter(array('container_id' => $this->id))->order('position asc')->fetchAll();
     }
     
+    /**
+     * add a row to this container at the given position
+     * @param $row the proxy to add
+     * @param $position the position at which to add the proxy
+     */
     public function addRow($row, $position)
     {
         $this->getTable()->addRow($this, $row, $position);
     }
     
+    /**
+     * get a human readable string for the given row
+     */
     public function getTitle($row)
     {
         return $row->__toString();
     }
 
+    /**
+/bin/bash: qa : commande introuvable
+     */
     public function titleGetter()
     {
         if(null === $this->name) {

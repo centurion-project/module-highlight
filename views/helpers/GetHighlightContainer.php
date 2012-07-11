@@ -2,6 +2,10 @@
 
 class Highlight_View_Helper_GetHighlightContainer extends Zend_View_Helper_Abstract
 {
+    /**
+     * returns the highlight container for the given name
+     * @todo find container from a proxy as well
+     */
     public function getHighlightContainer($containerName)
     {
         $table = Centurion_Db::getSingleton('highlight/container');

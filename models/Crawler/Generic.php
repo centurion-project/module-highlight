@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * a simple crawler that only looks in flatepages
  **/
 class Highlight_Model_Crawler_Generic extends Highlight_Model_Crawler_Abstract
 {
