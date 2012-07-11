@@ -35,9 +35,11 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
         list($contentType,) = Centurion_Db::getSingleton('core/content_type')->getOrCreate(array(
             'name'=>get_class($row->getTable())
         ));
+        $controller = isset($this->_controller->highlightController) ? $this->_controller->highlightController : 'admin-highlight';
+        $module = isset($this->_controller->highlightModule) ? $this->_controller->highlightModule : 'highlight';
         $url = $this->view->url(array(
-            'module'            => 'highlight',
-            'controller'        => 'admin-highlight',
+            'module'            => $module,
+            'controller'        => $controller,
             'action'            => 'get',
             'proxy_pk'          => $row->pk,
             'proxy_content_type_id' => $contentType->id,
@@ -47,4 +49,5 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
         $label = $this->view->translate('Manage highlights');
         return sprintf('<a href="%s">%s</a>', $url, $label);
     }
+
 }
