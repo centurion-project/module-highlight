@@ -41,10 +41,9 @@ $(function(){
        source: "<?php echo $this->url(array('action' => 'autocomplete', 'id' => $this->container->id));?>",
        select: function(event, rws) {
           var form = this.form;
-          $("#pk", form).val(rws.item.pk);
-          $("#model", form).val(rws.item.model);
-          $("input[name=proxy_pk]", form).val(rws.item.pk);
-          $("input[name=proxy_content_type_id]", form).val(rws.item.model);
+          for(var key in rws.item) {
+              $('#'+key, form).val(rws.item[key]);
+          }
        }
     });
 });

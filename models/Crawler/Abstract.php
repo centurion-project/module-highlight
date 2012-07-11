@@ -58,9 +58,9 @@ abstract class Highlight_Model_Crawler_Abstract
     protected function _populateArrayFromRow(Centurion_Db_Table_Row_Abstract $row)
     {
         $res = array(
-            'label'     => $this->friendlyName($row),
-            'model'     => get_class($row->getTable()),
-            'pk'        => $row->pk,
+            'label'                     => $this->friendlyName($row),
+            'proxy_content_type_id'     => get_class($row->getTable()),
+            'proxy_pk'                  => $row->pk,
         );
         return $res;
     }
