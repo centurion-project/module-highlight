@@ -144,8 +144,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function _getAutocompleteForm()
     {
         $form = new Highlight_Form_Model_Item();
-        $form->setContainerId($this->view->container->id);
+        $form->setContainer($this->_getContainer());
         $form->cleanForm();
+        $form->setMethod(Centurion_Form::METHOD_POST);
         return $form;
     }
     
@@ -157,6 +158,11 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         }
 
         $form = $this->_getAutocompleteForm();
+        $form->setAction($this->view->url(array(
+            'action'=>'add',
+            'id'=>$this->view->container->id,
+            'returnto'=> $this->view->url()
+        )));
         $this->view->autoCompleteForm = $form;
 
         $this->render('admin-highlight/get', true, true);
@@ -164,14 +170,14 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     
     public function addAction()
     {
-        $className = $this->_getParam('model', null);
-        $pk = $this->_getParam('pk', null);
- 
-        $container = $container = $this->_getContainer();
-
-        if (trim($className) !== '' && trim($pk) !== '') {
-            $row = Centurion_Db::getSingletonByClassName($className)->find($pk)->current();
-            $container->addRow($row, $this->_getParam('position', null));
+        $form = $this->_getAutocompleteForm();
+        if($this->getRequest()->isPost() && $form->isValid($this->getRequest()->getPost())) {
+            $item = $form->save();
+        }
+        else {
+            $this->view->errors = 'There was an error adding this content';
+            $this->view->autoCompleteForm = $form;
+            return $this->getAction();
         }
         
         $this->_returnTo();

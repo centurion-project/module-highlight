@@ -65,8 +65,15 @@ $(function(){
 
 <?php $this->headScript()->captureEnd(); ?>
 
-    <?php echo $this->autoCompleteForm ?>
     <div>
+        <?php if(isset($this->errors)) : ?>
+        <div class="ui-state-message">
+            <p class="ui-state-error"><?php echo $this->errors ?></p>
+        </div>
+        <?php endif ?>
+        <?php echo $this->autoCompleteForm ?>
+        <div class="clear"></div>
+        <?php if(false) : ?>
         <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => $this->url()));?>" >
             <fieldset>
                 <legend><?php echo $this->translate('Add a highlight@backoffice,vinsoc')?></legend>
@@ -88,6 +95,7 @@ $(function(){
                 </div>                
             </fieldset>
         </form>
+        <?php endif ?>
     </div>
     <div>
         <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => $this->url()));?>" method="post" id="orderForm">

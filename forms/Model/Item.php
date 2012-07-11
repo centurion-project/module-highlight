@@ -2,7 +2,7 @@
 
 class Highlight_Form_Model_Item extends Centurion_Form_Model_Abstract
 {
-    protected $_container_id = null;
+    protected $_container = null;
 
     public function __construct($options = array(), Centurion_Db_Table_Abstract $instance = null)
     {
@@ -28,16 +28,19 @@ class Highlight_Form_Model_Item extends Centurion_Form_Model_Abstract
         $proxy_pk = $this->getElement('proxy_pk');
         $this->removeElement('proxy_pk');
         $this->addElement('hidden', 'proxy_pk', array('required'=>true));
+        $this->getElement('proxy_pk')->setRequired(true);
 
         $proxy_content_type_id = $this->getElement('proxy_content_type_id');
         $this->removeElement('proxy_content_type_id');
         $this->addElement('hidden', 'proxy_content_type_id', array('required'=>true));
+        $this->getElement('proxy_content_type_id')->setRequired(true);
 
         $position = $this->getElement('position');
         $this->removeElement('position');
         $this->addElement('hidden', 'position', array(
             'validators'        => $position->getValidators()
         ));
+        $this->getElement('position')->setRequired(true);
 
 
         $this->addElement('text', 'autocomplete', array(
@@ -55,14 +58,28 @@ class Highlight_Form_Model_Item extends Centurion_Form_Model_Abstract
     }
 
 
-    public function setContainerId($id)
+    public function setContainer($container)
     {
-        $this->_container_id = $id;
+        $this->_container = $container;
         return $this;
     }
 
-    public function getContainerId()
+    public function getContainer()
     {
-        return $this->_container_id;
+        return $this->_container;
+    }
+
+    public function save($adapter = null)
+    {
+        $container = $this->getContainer();
+        if(is_null($container)) {
+            throw new UnexpectedValueException('no container found for this form');
+        }
+
+        $model = Centurion_Db::getSingletonByClassName($this->getElement('proxy_content_type_id')->getValue());
+        $row = $model->find($this->getElement('proxy_pk')->getValue())->current();
+        $item = $container->addRow($row, $this->getElement('position')->getValue());
+
+        return $item;
     }
 }
