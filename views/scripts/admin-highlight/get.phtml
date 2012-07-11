@@ -11,7 +11,7 @@
 </style>
 <?php $this->headScript()->captureStart(); ?>
 
-$(function() { 
+$(function() {
     $("a.help-add, a.help-edit").click(function() {
         $(".hl-template").find(".hl-item").removeClass("hl-item-select");
         $$ = $(this).parent().parent().parent(); // box highlight selected
@@ -40,8 +40,11 @@ $(function(){
     $('#autocomplete').CUI('autocomplete', {
        source: "<?php echo $this->url(array('action' => 'autocomplete', 'id' => $this->container->id));?>",
        select: function(event, rws) {
-          $("#pk", $("#formAutocomplete")).val(rws.item.pk);
-          $("#model", $("#formAutocomplete")).val(rws.item.model);
+          var form = this.form;
+          $("#pk", form).val(rws.item.pk);
+          $("#model", form).val(rws.item.model);
+          $("input[name=proxy_pk]", form).val(rws.item.pk);
+          $("input[name=proxy_content_type_id]", form).val(rws.item.model);
        }
     });
 });
@@ -62,6 +65,8 @@ $(function(){
 
 <?php $this->headScript()->captureEnd(); ?>
 
+    <?php echo $this->autoCompleteForm ?>
+    <div>
         <form id="formAutocomplete" class="form form-highlight" method="post" action="<?php echo $this->url(array('action' => 'add', 'id' => $this->container->id, 'returnto' => $this->url()));?>" >
             <fieldset>
                 <legend><?php echo $this->translate('Add a highlight@backoffice,vinsoc')?></legend>
@@ -83,7 +88,8 @@ $(function(){
                 </div>                
             </fieldset>
         </form>
-        <div>
+    </div>
+    <div>
         <form action="<?php echo $this->url(array('action' => 'save-order', 'id' => $this->container->id, 'returnto' => $this->url()));?>" method="post" id="orderForm">
             <ul class="hl-template" id="sortable">
                 <?php

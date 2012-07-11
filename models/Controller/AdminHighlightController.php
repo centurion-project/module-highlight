@@ -140,6 +140,14 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     {
         return new Highlight_Model_Crawler_Generic();
     }
+
+    public function _getAutocompleteForm()
+    {
+        $form = new Highlight_Form_Model_Item();
+        $form->setContainerId($this->view->container->id);
+        $form->cleanForm();
+        return $form;
+    }
     
     public function getAction()
     {
@@ -147,8 +155,11 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         if($backUrl = $this->_getParam('returnafter', false)) {
             $this->view->backUrl = urldecode($backUrl);
         }
-        $this->render('admin-highlight/get', true, true);
 
+        $form = $this->_getAutocompleteForm();
+        $this->view->autoCompleteForm = $form;
+
+        $this->render('admin-highlight/get', true, true);
     }
     
     public function addAction()

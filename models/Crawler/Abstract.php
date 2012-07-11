@@ -50,12 +50,18 @@ abstract class Highlight_Model_Crawler_Abstract
 
         $res = array();
         foreach ($resultSet as $row) {
-            $res[] = array(
-                'label'     => $this->friendlyName($row),
-                'model'     => get_class($row->getTable()),
-                'pk'        => $row->pk
-            );
+            $res[] = $this->_populateArrayFromRow($row);
         }
+        return $res;
+    }
+
+    protected function _populateArrayFromRow(Centurion_Db_Table_Row_Abstract $row)
+    {
+        $res = array(
+            'label'     => $this->friendlyName($row),
+            'model'     => get_class($row->getTable()),
+            'pk'        => $row->pk,
+        );
         return $res;
     }
 
