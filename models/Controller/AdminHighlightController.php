@@ -141,10 +141,29 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
      */
     public function getCrawler()
     {
+        // maybe the proxy can tell us what crawler we need to use
         $proxy = $this->_getProxy();
         if(!empty($proxy) && $proxy instanceof Highlight_Traits_Model_Row_HasHighlights_Interface) {
             return $proxy->getCrawler();
         }
+        
+        // maybe there was a crawler parameter in the ur
+        // we can try and find it from config.
+        if($this->_getParam('crawler', false)) {
+            $crawlerName = $this->_getParam('crawler');
+            $crawlerClass = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.className', $crawlerName));
+            if($crawlerClass && class_exists($crawlerClass)) {
+                $crawlerParams = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.params', $crawlerName));
+                if($crawlerParams) {
+                    return new $crawlerClass($crawlerParams);
+                }
+                else {
+                    return new $crawlerClass();
+                }
+            }
+        }
+
+
         return new Highlight_Model_Crawler_Generic();
     }
 

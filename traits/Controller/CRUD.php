@@ -37,17 +37,31 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
         ));
         $controller = isset($this->_controller->highlightController) ? $this->_controller->highlightController : 'admin-highlight';
         $module = isset($this->_controller->highlightModule) ? $this->_controller->highlightModule : 'highlight';
-        $url = $this->view->url(array(
+        
+        $params = array(
             'module'            => $module,
             'controller'        => $controller,
             'action'            => 'get',
             'proxy_pk'          => $row->pk,
             'proxy_content_type_id' => $contentType->id,
             //'returnafter'          => $this->view->url()
-        ));
+        );
+        $params = array_merge($params, $this->_getExtraParams());
+
+        $url = $this->view->url($params);
 
         $label = $this->view->translate('Manage highlights');
         return sprintf('<a href="%s">%s</a>', $url, $label);
+    }
+
+    protected function _getExtraParams()
+    {
+        if(!method_exists($this->_controller, 'getAdditionalHighlightUrlParams')) {
+            return array();
+        }
+
+        return $this->_controller->getAdditionalHighlightUrlParams();
+        
     }
 
 }
