@@ -7,6 +7,7 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
 {
     
     protected $_fieldMap = array();
+    protected $_pixelOnEmpty = false;
 
     function __construct($params)
     {
@@ -20,6 +21,8 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
             if(!is_array($fields)) {
                 continue;
             }
+
+            $this->_pixelOnEmpty = $params['cover']['pixelOnEmpty'];
 
             $this->_fieldMap[$field] = $fields;
         }
@@ -40,7 +43,7 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
      */
     public function map(Centurion_Db_Table_Row_Abstract $row)
     {
-        $res = array();
+        $res = array('row'=>$row);
 
         $textFields = array('title', 'link', 'description');
         foreach ($textFields as $textField) {
@@ -62,6 +65,9 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
             if(isset($row->{$field}) && $row->{$field} instanceof Media_Model_DbTable_Row_File) {
                 $res['cover'] = $row->{$field};
             }
+        }
+        if(!isset($res['cover']) && $this->_pixelOnEmpty) {
+            $res['cover'] = Centurion_Db::getSingleton('media/file')->getPx();
         }
 
         return $res;

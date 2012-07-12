@@ -49,15 +49,15 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         }
     }
 
-    public function getHighlights($mapper = null)
+    public function getHighlights($mapper = null, $override = null)
     {
         if(!$mapper) {
             $mapper = 'default';
         }
         if(is_string($mapper)) {
-            $mapper = Highlight_Model_Mapper_Factory::get('default');
+            $mapper = Highlight_Model_FieldMapper_Factory::get('default', $override);
         }
-        if(!($mapper instanceof Highlight_Model_Mapper_Interface)) {
+        if(!($mapper instanceof Highlight_Model_FieldMapper_Interface)) {
             throw new InvalidArgumentException('given mapper does not implement the mapper interface');
         }
 
