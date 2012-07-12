@@ -75,10 +75,13 @@ abstract class Highlight_Model_Crawler_Abstract
      * @param (string) $terms a string contains terms or keywords to look for
      * @return [Centurion_Db_Table_Row_Abstract]
      */
-    public function crawlTable(Centurion_Db_Table_Abstract $table, array $fields, $terms)
+    public function crawlTable(Centurion_Db_Table_Abstract $table, array $fields, $terms, $limit=0)
     {
         $select = $table->select(true);
         $this->selectKeywordsInTextFields($select, $fields, $terms);
+        if(0 < $limit) {
+            $select->limit($limit);
+        }
         $all = $select->fetchAll();
         if($all->count() === 0) {
             return array();
