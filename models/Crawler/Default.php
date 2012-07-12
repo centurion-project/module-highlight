@@ -3,7 +3,7 @@
 /**
  * a simple crawler that only looks in flatepages
  **/
-class Afdel_Model_Crawler_Default extends Highlight_Model_Crawler_Abstract
+class Highlight_Model_Crawler_Default extends Highlight_Model_Crawler_Abstract
 {
     protected $_models = array();
 

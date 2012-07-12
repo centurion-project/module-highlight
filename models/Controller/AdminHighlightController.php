@@ -147,20 +147,22 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             return $proxy->getCrawler();
         }
         
-        // maybe there was a crawler parameter in the ur
+        // maybe there was a crawler parameter in the url
         // we can try and find it from config.
         if($this->_getParam('crawler', false)) {
             $crawlerName = $this->_getParam('crawler');
-            $crawlerClass = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.className', $crawlerName));
-            if($crawlerClass && class_exists($crawlerClass)) {
-                $crawlerParams = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.params', $crawlerName));
-                if($crawlerParams) {
-                    return new $crawlerClass($crawlerParams);
-                }
-                else {
-                    return new $crawlerClass();
-                }
-            }
+            $crawler = Highlight_Model_Crawler_Factory::get($crawlerName);
+            if($crawler) return $crawler;
+            //$crawlerClass = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.className', $crawlerName));
+            //if($crawlerClass && class_exists($crawlerClass)) {
+                //$crawlerParams = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.params', $crawlerName));
+                //if($crawlerParams) {
+                    //return new $crawlerClass($crawlerParams);
+                //}
+                //else {
+                    //return new $crawlerClass();
+                //}
+            //}
         }
 
 
