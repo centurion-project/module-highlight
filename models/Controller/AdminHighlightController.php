@@ -191,7 +191,15 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         )));
         $this->view->autoCompleteForm = $form;
 
+        $this->view->highlightMapper = $this->_getHighlightMapper();
+
         $this->render('admin-highlight/get', true, true);
+    }
+
+    protected function _getHighlightMapper()
+    {
+        // return default mapper for now
+        return Highlight_Model_FieldMapper_Factory::get();
     }
     
     public function addAction()

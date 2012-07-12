@@ -87,8 +87,16 @@ $(function(){
                         <em>Empty</em>
                         <?php else: ?>
                         <input type="hidden" name="rowId[]" value="<?php echo $row->id?>" />
-                        <h3><?php echo $this->container->getTitle($row->getProxy());?></h3>
-                        <div><?php echo $row->getBlockHtml() ?></div>
+                        <?php
+                            $mapped = $row->map($this->highlightMapper);
+                        ?>
+                        <h3>
+                            <?php if(!empty($mapped['cover'])) : ?>
+                            <img src="<?php echo $mapped['cover']->getStaticUrl(array('cropcenterresize'=>array('width'=>75, 'height'=>100))) ?>" height="100" widht="75" style="float: left; width: 75; height: 100; margin-right: 5px;" width="75" height="100" /> 
+                            <?php endif ?>
+                            <?php echo $mapped['title'] ?>
+                        </h3>
+                        <span><?php echo $mapped['type'] ?></span>
                         <?php endif; ?>
                         <ul class="actions">
                             <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil">Edit</span></a></li>

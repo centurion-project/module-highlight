@@ -3,10 +3,37 @@
 class Highlight_Model_DbTable_Row_Row extends Centurion_Db_Table_Row_Proxy
 {
 
-    public function getBlockHtml()
+    public function getBlockHtml(Highlight_Model_FieldMapper_Interface $mapper=null)
     {
         $meta = $this->getProxy()->getTable()->getMeta();
-        return sprintf('<span>%s</span>', $meta['verboseName']);
+        if(!$mapper) {
+            return sprintf('<span>%s</span>', $meta['verboseName']);
+        }
+        else {
+            $mapped = $mapper->map($this->getProxy());
+            $image = '';
+            if(!empty($mapped['cover'])) {
+                $imageUrl = $mapped['cover']->getStaticUrl(array('cropcenterresize'=>array('width'=>75, 'height'=>100)));
+                $image = sprintf('<img src="%s" height="100" widht="75" style="float: left; width: 75; height: 100; margin-right: 5px;" width="75" height="100" /> ', $imageUrl);
+            }
+            return sprintf('<div>%s%s</div>', $image, $mapped['description']);
+        }
+    }
+
+    public function map(Highlight_Model_FieldMapper_Interface $mapper = null)
+    {
+        $meta = $this->getProxy()->getTable()->getMeta();
+        $typename = $meta['verboseName'];
+        if(!$mapper) {
+            $mapper = Highlight_Model_FieldMapper_Factory::getFieldMapper('default');
+        }
+
+        $res = $mapper->map($this->getProxy());
+        if(empty($res['type'])) {
+            $res['type'] = $typename;
+        }
+
+        return $res;
     }
     
 }
