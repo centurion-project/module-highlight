@@ -25,7 +25,7 @@ class Highlight_Model_DbTable_Row_Row extends Centurion_Db_Table_Row_Proxy
         $meta = $this->getProxy()->getTable()->getMeta();
         $typename = $meta['verboseName'];
         if(!$mapper) {
-            $mapper = Highlight_Model_FieldMapper_Factory::getFieldMapper('default');
+            $mapper = Highlight_Model_FieldMapper_Factory::get('default');
         }
 
         $res = $mapper->map($this->getProxy());

@@ -37,7 +37,7 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
     }
 
     /**
-/bin/bash: qa : commande introuvable
+     * @deprecated use field mappers instead
      */
     public function titleGetter()
     {
@@ -47,6 +47,27 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         else {
             return $this->name;
         }
+    }
+
+    public function getHighlights($mapper = null)
+    {
+        if(!$mapper) {
+            $mapper = 'default';
+        }
+        if(is_string($mapper)) {
+            $mapper = Highlight_Model_Mapper_Factory::get('default');
+        }
+        if(!($mapper instanceof Highlight_Model_Mapper_Interface)) {
+            throw new InvalidArgumentException('given mapper does not implement the mapper interface');
+        }
+
+        $rowset = $this->getRowSet();
+        $res = array();
+        foreach ($rowset as $row) {
+            $res[] = $row->map($mapper);
+        }
+
+        return $res;
     }
 
 }
