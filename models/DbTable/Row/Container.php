@@ -13,9 +13,13 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
      * get a rowset of the highlight items attached to this container
      * @return Centurion_Db_Table_Rowset_Abstract
      */
-    public function getRowSet()
+    public function getRowSet($limit = null)
     {
-        return Centurion_Db::getSingleton('highlight/row')->select(true)->filter(array('container_id' => $this->id))->order('position asc')->fetchAll();
+        $select = Centurion_Db::getSingleton('highlight/row')->select(true)->filter(array('container_id' => $this->id))->order('position asc');
+        if($limit) {
+            $select->limit($limit);
+        }
+        return $select->fetchAll();
     }
     
     /**
@@ -49,19 +53,19 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         }
     }
 
-    public function getHighlights($mapper = null, $override = null)
+    public function getHighlights($mapper = null, $override = null, $limit = null)
     {
         if(!$mapper) {
             $mapper = 'default';
         }
         if(is_string($mapper)) {
-            $mapper = Highlight_Model_FieldMapper_Factory::get('default', $override);
+            $mapper = Highlight_Model_FieldMapper_Factory::get($mapper, $override);
         }
         if(!($mapper instanceof Highlight_Model_FieldMapper_Interface)) {
             throw new InvalidArgumentException('given mapper does not implement the mapper interface');
         }
 
-        $rowset = $this->getRowSet();
+        $rowset = $this->getRowSet($limit);
         $res = array();
         foreach ($rowset as $row) {
             $res[] = $row->map($mapper);

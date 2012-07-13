@@ -153,16 +153,20 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             $crawlerName = $this->_getParam('crawler');
             $crawler = Highlight_Model_Crawler_Factory::get($crawlerName);
             if($crawler) return $crawler;
-            //$crawlerClass = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.className', $crawlerName));
-            //if($crawlerClass && class_exists($crawlerClass)) {
-                //$crawlerParams = Centurion_Config_Manager::get(sprintf('highlight.crawlers.%s.params', $crawlerName));
-                //if($crawlerParams) {
-                    //return new $crawlerClass($crawlerParams);
-                //}
-                //else {
-                    //return new $crawlerClass();
-                //}
-            //}
+        }
+
+        // maybe the container is a named container and has a crawler in its config
+        if($container = $this->_getContainer()) {
+            if(!empty($container->name)) {
+                $name = $container->name;
+                $crawlerName = Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.crawler', $name));
+                if($crawlerName) {
+                    $crawler = Highlight_Model_Crawler_Factory::get($crawlerName);
+                    if($crawler) {
+                        return $crawler;
+                    }
+                }
+            }
         }
 
 
