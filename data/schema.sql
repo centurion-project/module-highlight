@@ -34,23 +34,6 @@ CREATE TABLE IF NOT EXISTS `highlight_container` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `highlight_feed`
---
-
-CREATE TABLE IF NOT EXISTS `highlight_feed` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `hightlight_container_id` int(11) unsigned DEFAULT NULL,
-  `proxy_content_type_id` int(11) unsigned DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `where` varchar(255) DEFAULT NULL,
-  `order` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `hightlight_container_id` (`hightlight_container_id`,`proxy_content_type_id`),
-  KEY `proxy_content_type_id` (`proxy_content_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `highlight_row`
@@ -70,13 +53,6 @@ CREATE TABLE IF NOT EXISTS `highlight_row` (
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `highlight_feed`
---
-ALTER TABLE `highlight_feed`
-  ADD CONSTRAINT `highlight_feed_ibfk_1` FOREIGN KEY (`hightlight_container_id`) REFERENCES `highlight_container` (`id`),
-  ADD CONSTRAINT `highlight_feed_ibfk_2` FOREIGN KEY (`proxy_content_type_id`) REFERENCES `centurion_content_type` (`id`);
 
 --
 -- Constraints for table `highlight_row`
