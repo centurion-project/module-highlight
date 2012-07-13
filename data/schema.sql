@@ -22,6 +22,7 @@ START TRANSACTION;
 -- Table structure for table `highlight_container`
 --
 
+DROP TABLE IF EXISTS `highlight_container`;
 CREATE TABLE IF NOT EXISTS `highlight_container` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `highlight_container` (
 -- Table structure for table `highlight_row`
 --
 
+DROP TABLE IF EXISTS `highlight_row`;
 CREATE TABLE IF NOT EXISTS `highlight_row` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `proxy_content_type_id` int(11) unsigned DEFAULT NULL,
