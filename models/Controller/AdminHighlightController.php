@@ -59,7 +59,19 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function getSelect()
     {
         if($this->_select) return $this->_select;
+
         $this->_select = Centurion_Db::getSingleton('highlight/container')->select(true);
+        if($proxy = $this->_getProxy()) {
+            $this->_select->filter(array(
+                'proxy_pk'                  => $proxy->pk,
+                'proxy_content_type__name'  => get_class($proxy->getTable())
+            ));
+        }
+        else {
+            $this->_select->filter(array(
+                'proxy_pk__isnull' => true
+            ));
+        }
         return $this->_select;
     }
     
