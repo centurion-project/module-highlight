@@ -16,4 +16,11 @@ interface Highlight_Model_FieldMapper_Interface
      * )
      */
     public function map(Centurion_Db_Table_Row_Abstract $row);
+
+    /**
+     * takes a rowset and runs every entry into the map method.
+     * @param SeekableIterator $rowset the rowset to map
+     * @return array
+     */
+    public function mapRowSet($rowset);
 }

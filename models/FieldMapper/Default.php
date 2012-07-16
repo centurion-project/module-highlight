@@ -76,10 +76,16 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
         return $res;
     }
 
-    public function mapRowSet(Centurion_Db_Table_Rowset_Abstract $rowset)
+    /**
+     * @todo LKJLK**FK~#~ PHP can't get its iterators right
+     */
+    public function mapRowSet($rowset)
     {
         $res = array();
         foreach ($rowset as $r) {
+            if(is_null($r)) {
+                continue;
+            }
             $res[] = $this->map($r);
         }
         return $res;
