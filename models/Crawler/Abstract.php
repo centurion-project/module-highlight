@@ -117,6 +117,9 @@ abstract class Highlight_Model_Crawler_Abstract
     public function selectKeywordsInTextFields($select, $fields, $terms)
     {
         $columns = (array) $fields;
+        // make sure we only filter on columns that exist
+        $columns = array_filter($columns, array($select->getTable(), 'hasColumn'));
+
 
         // the 'where' clause we are adding actually contains a subrequest
         // this is because it is very difficult to manage OR operator with the Zend Select object
