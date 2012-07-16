@@ -119,4 +119,19 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     }
 
 
+    public function findOneByNameAndProxy($name, Centurion_Db_Table_Row_Abstract $row)
+    {
+        if(!is_string($name)) {
+            throw new InvalidArgumentException('Name must be a string. '.gettype($name).' given');
+        }
+        $ctype = Centurion_Db::getSingleton('core/content_type')->findOneByName(get_class($row->getTable()));
+        $select = $this->select(true)->filter(array(
+            'proxy_pk'          => $row->pk,
+            'proxy_content_type_id' => $ctype->id,
+            'name'              => $name
+        ));
+        return $select->fetchRow();
+    }
+
+
 }
