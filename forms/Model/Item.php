@@ -8,7 +8,7 @@ class Highlight_Form_Model_Item extends Centurion_Form_Model_Abstract
     {
         $this->_model = Centurion_Db::getSingleton('highlight/row');
         
-        $this->_exclude = array('id', 'container_id');
+        $this->_exclude = array('id', 'container_id', 'cover_id');
         
         $this->_elementLabels = array(
             'proxy_pk'              => 'id',
