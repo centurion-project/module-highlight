@@ -217,7 +217,7 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     protected function _getHighlightMapper()
     {
         // return default mapper for now
-        return Highlight_Model_FieldMapper_Factory::get();
+        return Highlight_Model_FieldMapper_Factory::get('default');
     }
     
     public function addAction()

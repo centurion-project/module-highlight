@@ -44,7 +44,12 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
     public function map(Centurion_Db_Table_Row_Abstract $row)
     {
         if($row instanceof Highlight_Model_DbTable_Row_Row) {
-            return $this->map($row->getProxy());
+            $override = $row->toArray();
+            $override['cover'] = $row->cover;
+            $row = $row->getProxy();
+            if(!$row) {
+                return $override;
+            }
         }
         $res = array('row'=>$row);
 
@@ -73,7 +78,23 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
             $res['cover'] = Centurion_Db::getSingleton('media/file')->getPx();
         }
 
+        if(!empty($override)) {
+            $res = $this->mapOverride($res, $override);
+        }
+
         return $res;
+    }
+
+
+    public function mapOverride($res, $override)
+    {
+        $over = array();
+        foreach ($override as $key => $value) {
+            if(!empty($value)) {
+                $over[$key] = $value;
+            }
+        }
+        return array_merge($res, $over);
     }
 
     /**

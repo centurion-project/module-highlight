@@ -22,13 +22,19 @@ class Highlight_Model_DbTable_Row_Row extends Centurion_Db_Table_Row_Proxy
 
     public function map(Highlight_Model_FieldMapper_Interface $mapper = null)
     {
-        $meta = $this->getProxy()->getTable()->getMeta();
-        $typename = $meta['verboseName'];
         if(!$mapper) {
             $mapper = Highlight_Model_FieldMapper_Factory::get('default');
         }
+        if(!$this->getProxy()) {
+            $res = $mapper->map($this);
+            $typename = 'highlight';
+        }
+        else {
+            $meta = $this->getProxy()->getTable()->getMeta();
+            $typename = $meta['verboseName'];
+        }
 
-        $res = $mapper->map($this->getProxy());
+        $res = $mapper->map($this);
         if(empty($res['type'])) {
             $res['type'] = $typename;
         }

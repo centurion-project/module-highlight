@@ -17,5 +17,11 @@ class Highlight_Model_DbTable_Row extends Centurion_Db_Table_Abstract
             'refTableClass' => 'Core_Model_DbTable_ContentType',
             'onDelete'  => self::CASCADE
         ),
+        'cover' => array(
+            'columns' => 'cover_id',
+            'refColumns' => 'id',
+            'refTableClass' => 'Media_Model_DbTable_File',
+            'onDelete'  => self::SET_NULL
+        ),
     );
 }
