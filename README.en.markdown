@@ -1,3 +1,5 @@
+*This module is not documented enough. This should be done soon!*
+
 # SYNOPSIS 
 An highlight content is an aggregation of many mixed types contents.
 Theoretically, it is possible to add to this collection any content by its type and id.
