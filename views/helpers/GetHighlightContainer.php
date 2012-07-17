@@ -5,7 +5,7 @@ class Highlight_View_Helper_GetHighlightContainer extends Zend_View_Helper_Abstr
     /**
      * returns the highlight container for the given name or proxy
      */
-    public function getHighlightContainer($attached)
+    public function getHighlightContainer($attached, $name=null)
     {
         $table = Centurion_Db::getSingleton('highlight/container');
         
@@ -16,7 +16,12 @@ class Highlight_View_Helper_GetHighlightContainer extends Zend_View_Helper_Abstr
             $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByName($attached);
         }
         else if($attached instanceof Centurion_Db_Table_Row_Abstract) {
-            $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByProxy($attached);
+            if(is_null($name)) {
+                $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByProxy($attached);
+            }
+            else {
+                $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByNameAndProxy($attached, $name);
+            }
         }
         
         return $containerRow;
