@@ -51,7 +51,7 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
         $url = $this->view->url($params);
 
         $label = $this->view->translate('Manage highlights');
-        return sprintf('<a href="%s">%s</a>', $url, $label);
+        return sprintf('<a target="_blank" href="%s">%s</a>', $url, $label);
     }
 
     protected function _getExtraParams()
