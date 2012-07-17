@@ -13,7 +13,7 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
     {
         unset($params['className']);
         
-        foreach (array('title', 'link', 'description', 'cover') as $field) {
+        foreach (array_keys($params) as $field) {
             if(!isset($params[$field]) || !is_array($params[$field]) || !isset($params[$field]['fields'])) {
                 continue;
             }
@@ -53,7 +53,7 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
         }
         $res = array('row'=>$row);
 
-        $textFields = array('title', 'link', 'description');
+        $textFields = array_keys($this->_fieldMap);
         foreach ($textFields as $textField) {
             $value = null;
             foreach ($this->_fieldMap[$textField] as $field) {
