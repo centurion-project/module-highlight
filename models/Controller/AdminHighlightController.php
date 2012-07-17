@@ -156,7 +156,7 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         // maybe the proxy can tell us what crawler we need to use
         $proxy = $this->_getProxy();
         if(!empty($proxy) && $proxy instanceof Highlight_Traits_Model_Row_HasHighlights_Interface) {
-            return $proxy->getCrawler();
+            $crawler = $proxy->getCrawler();
         }
         
         // maybe there was a crawler parameter in the url
@@ -164,7 +164,6 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         if($this->_getParam('crawler', false)) {
             $crawlerName = $this->_getParam('crawler');
             $crawler = Highlight_Model_Crawler_Factory::get($crawlerName);
-            if($crawler) return $crawler;
         }
 
         // maybe the container is a named container and has a crawler in its config
@@ -174,15 +173,14 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
                 $crawlerName = Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.crawler', $name));
                 if($crawlerName) {
                     $crawler = Highlight_Model_Crawler_Factory::get($crawlerName);
-                    if($crawler) {
-                        return $crawler;
-                    }
                 }
             }
         }
+        
+        $crawler = Highlight_Model_Crawler_Factory::get('default');
 
-
-        return new Highlight_Model_Crawler_Generic();
+        $crawler->setContainer($this->_getContainer());
+        return $crawler;
     }
 
     public function _getAutocompleteForm()

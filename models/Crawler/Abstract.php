@@ -8,8 +8,21 @@
  **/
 abstract class Highlight_Model_Crawler_Abstract
 {
+    protected $_container = null;
     
     protected $_models = array();
+
+
+    public function setContainer($container)
+    {
+        $this->_container = $container;
+        return $this;
+    }
+
+    public function getContainer()
+    {
+        return $this->_container;
+    }
 
     public function __construct() {
     }
