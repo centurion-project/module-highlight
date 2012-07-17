@@ -66,10 +66,7 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         }
 
         $rowset = $this->getRowSet($limit);
-        $res = array();
-        foreach ($rowset as $row) {
-            $res[] = $row->map($mapper);
-        }
+        $res = $mapper->mapRowSet($rowset);
 
         return $res;
     }

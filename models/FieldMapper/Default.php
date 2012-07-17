@@ -22,7 +22,7 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
                 continue;
             }
 
-            $this->_pixelOnEmpty = $params['cover']['pixelOnEmpty'];
+            $this->_pixelOnEmpty = $params['cover']['pixelOnEmpty'] > 0;
 
             $this->_fieldMap[$field] = $fields;
         }
@@ -44,11 +44,11 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
     public function map(Centurion_Db_Table_Row_Abstract $row)
     {
         if($row instanceof Highlight_Model_DbTable_Row_Row) {
-            $override = $row->toArray();
-            $override['cover'] = $row->cover;
-            $row = $row->getProxy();
-            if(!$row) {
-                return $override;
+            $proxy = $row->getProxy();
+            if($proxy) {
+                $override = $row->toArray();
+                $override['cover'] = $row->cover;
+                $row = $proxy;
             }
         }
         $res = array('row'=>$row);
@@ -74,13 +74,14 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
                 $res['cover'] = $row->{$field};
             }
         }
-        if(!isset($res['cover']) && $this->_pixelOnEmpty) {
-            $res['cover'] = Centurion_Db::getSingleton('media/file')->getPx();
-        }
 
         if(!empty($override)) {
             $res = $this->mapOverride($res, $override);
         }
+
+        if(empty($res['cover']) && $this->_pixelOnEmpty) {
+            $res['cover'] = Centurion_Db::getSingleton('media/file')->getPx();
+            }
 
         return $res;
     }
