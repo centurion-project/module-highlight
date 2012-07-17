@@ -112,7 +112,7 @@ $(function(){
                     <li class="hl-item not-sortable" id="hl-item-<?php echo ($maxPosition + 1);?>" style="position:relative">
                         <em><?php echo $this->translate('Empty@backoffice,vinsoc')?></em>
                         <ul class="actions">
-                            <li><a href="<?php echo $this->url(array('module'=>'highlight', 'controller'=>'admin-row', 'action'=>'new', 'container'=>$this->container->id, '_next'=>$this->url())) ?>"
+                            <li><a href="<?php echo $this->url(array('module'=>'highlight', 'controller'=>'admin-row', 'action'=>'new', 'id' => null, 'container'=>$this->container->id, '_next'=>$this->url())) ?>"
                             class="help help-customize" title="Custom"><span class="ui-icon ui-icon-star"><?php echo $this->translate('Custom@backoffice,vinsoc')?></span></a></li>
                             <li><a href="#" class="help help-edit" title="Edit"><span class="ui-icon ui-icon-pencil"><?php echo $this->translate('Edit@backoffice,vinsoc')?></span></a></li>
                         </ul>
