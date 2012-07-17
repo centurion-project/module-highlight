@@ -1,4 +1,12 @@
 <?php
+if(isset($this->proxy)) {
+    $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->proxy->__toString() . '</h1>');
+}
+else {
+    $this->placeholder('headling_1')->set('<h1>Manage named highlights</h1>');
+}
+?>
+<?php
 foreach ($this->containers as $container) {
     echo '<a href="' . $this->url(array('action' => 'get', 'id' => $container->id)) . '">' . $container->name . '</a><br />';
 }

@@ -39,6 +39,7 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function indexAction()
     {
         $this->view->containers = $this->getContainers();
+        $this->view->proxy = $this->_getProxy();
 
         $this->render('admin-highlight/index', true, true);
     }
