@@ -177,7 +177,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             }
         }
         
-        $crawler = Highlight_Model_Crawler_Factory::get('default');
+        if(empty($crawler)) {
+            $crawler = Highlight_Model_Crawler_Factory::get('default');
+        }
 
         $crawler->setContainer($this->_getContainer());
         return $crawler;
