@@ -110,7 +110,9 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
      */
     public function findOneByProxy(Centurion_Db_Table_Row_Abstract $row)
     {
+        if(!$row) return null;
         $ctype = Centurion_Db::getSingleton('core/content_type')->findOneByName(get_class($row->getTable()));
+        if(!$ctype) return null;
         $select = $this->select(true)->filter(array(
             'proxy_pk'          => $row->pk,
             'proxy_content_type_id' => $ctype->id
