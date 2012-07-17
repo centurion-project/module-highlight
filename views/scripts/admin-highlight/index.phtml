@@ -1,6 +1,6 @@
 <?php
 if(isset($this->proxy)) {
-    $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->proxy->__toString() . '</h1>');
+    $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->smartTextCrop($this->proxy->__toString(), 60) . '</h1>');
 }
 else {
     $this->placeholder('headling_1')->set('<h1>Manage named highlights</h1>');

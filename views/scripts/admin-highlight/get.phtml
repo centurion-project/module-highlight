@@ -1,10 +1,5 @@
 <?php
-    if(isset($this->backUrl)) {
-        $this->placeholder('headling_1')->set('<h1>Manage highlist of: <a href="'.$this->backUrl.'">'.$this->container->title.'</a></h1>');
-    }
-    else {
-        $this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->container->title . '</h1>');
-    }
+$this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->smartTextCrop($this->container->title, 60) . '</h1>');
 ?>
 <style type="text/css">
     .hl-item {width: 275px; height: 100px;}
