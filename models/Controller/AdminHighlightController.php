@@ -70,10 +70,21 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         }
         else {
             $this->_select->filter(array(
-                'proxy_pk__isnull' => true
+                'proxy_pk__isnull'  => true
             ));
+            $named = $this->_getNamedHighlights();
+            if(!empty($named)) {
+                $this->_selecet->filter(array(
+                    'name__in'      => $named
+                ));
+            }
         }
         return $this->_select;
+    }
+
+    protected function _getNamedHighlights()
+    {
+        return Highlight_Bootstrap::listNamedHighlightsInConfig();
     }
     
     /** 

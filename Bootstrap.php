@@ -17,7 +17,7 @@ class Highlight_Bootstrap extends Centurion_Application_Module_Bootstrap
     public function _initContainers()
     {
         // creating all named highlights if they weren't already there
-        $namedHighlights = Centurion_Config_Manager::get('highlight.named_highlights');
+        $namedHighlights = self::listNamedHighlightsInConfig();
         if(is_array($namedHighlights) && count($namedHighlights)) {
             $containerModel = Centurion_Db::getSingleton('highlight/container');
             $allNamed = $containerModel->select(true)->filter(array(
@@ -30,15 +30,27 @@ class Highlight_Bootstrap extends Centurion_Application_Module_Bootstrap
                 $existing[$container->name] = true;
             }
 
-            foreach ($namedHighlights as $key => $hl) {
-                $name = $hl;
-                if(is_array($hl)) {
-                    $name = $key;
-                }
+            foreach ($namedHighlights as $name) {
                 if(!isset($existing[$name])) {
                     $containerModel->createWithName($name);
                 }
             }
         }
+    }
+
+
+    static public function listNamedHighlightsInConfig()
+    {
+        $namedHighlights = Centurion_Config_Manager::get('highlight.named_highlights');
+        $res = array();
+        foreach ($namedHighlights as $key => $name) {
+            if(is_array($name)) {
+                $res[] = $key;
+            }
+            else {
+                $res[] = $name;
+            }
+        }
+        return $res;
     }
 }
