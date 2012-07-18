@@ -20,7 +20,7 @@ class Highlight_View_Helper_GetHighlightContainer extends Zend_View_Helper_Abstr
                 $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByProxy($attached);
             }
             else {
-                $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByNameAndProxy($attached, $name);
+                $containerRow = Centurion_Db::getSingleton('highlight/container')->findOneByNameAndProxy($name, $attached);
             }
         }
         
