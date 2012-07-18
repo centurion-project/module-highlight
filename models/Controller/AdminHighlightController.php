@@ -74,7 +74,7 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             ));
             $named = $this->_getNamedHighlights();
             if(!empty($named)) {
-                $this->_selecet->filter(array(
+                $this->_select->filter(array(
                     'name__in'      => $named
                 ));
             }
