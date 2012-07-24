@@ -76,7 +76,7 @@ go to the following url on your project: `/highlight/admin-highlight`.
 You will be presented with and interface with one or more blue squares. each of these represents an `item`.
 The last one is an empty one, ready to be added.
 
-You can add one by clicking on the 'edit' action button.
+You can add one by clicking on the 'edit' action button. (little pen icon)
 A form pops up at the top of the page with a text field. If you type in it, you should see some smart autocomplete pop
 just under it. The default crawler looks for flatpages only. but that should do fine for now.
 
@@ -125,3 +125,48 @@ The `getHighlights` method of a container instance returns a collection of mappe
 no parameters, but you would in fact be able to override the field mapper in use. The default one is used otherwise.
 
 
+
+## Highlights for a specific content
+
+Well all this is nice and swell but. let's say I want to pick 3 articles that will show in the sidebar when reading my
+article about my last trip in Switzerland.
+I could define a named highlight for this particular case of course, and just check in my controller if i should display
+this highlight.
+
+But what if I want to do this on any other article as well? Well, this module lets you attached a highlight container
+by proxy model. In effect, you attach a container to the content of your choice. Let's go through the step of doing so
+
+### Letting now the highlight admin interface what is your current content
+
+The highlight admin interface check for various parameters in the url to see if it should manage highlights for a
+specific content. These parameters are:
+
+* `proxy_pk`: the Primary key of your content.
+* `proxy_content_type_id`: The id of the content type of your content.
+
+Of course you could write those by hand. But let's all agree that this is a bit tedious. I personally prefer something
+that generates the correct URL for me.
+
+Let's open the admin CRUD controller of your favourite content. I like user profiles.
+
+```php
+
+<?php
+
+class User_AdminProfileController extends Centurion_Controller_CRUD implements Highlight_Traits_Controller_CRUD_Interface
+{
+    public function init()
+    {
+
+        // ... nothing left to change actually
+ 
+
+```
+
+
+See what I did? I just added the `implements Highlight_Traits_Controller_CRUD_Interface` part to the class declaration.
+This is the way Centurion handles traits mechanisms, because not everyone can get the latest PHP version, right?
+
+What does this trait does? I simply adds, in the crud list, a column at the very end with a link to manage highlights.
+This is the generated url I was talking about. It contains the parameters needed for the highlight admin to attach a
+container to our custom content.
