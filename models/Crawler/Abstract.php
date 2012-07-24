@@ -13,12 +13,18 @@ abstract class Highlight_Model_Crawler_Abstract
     protected $_models = array();
 
 
+    /**
+     * Set the current container for this crawler
+     */
     public function setContainer($container)
     {
         $this->_container = $container;
         return $this;
     }
 
+    /**
+     * Get the current container for this crawler
+     */
     public function getContainer()
     {
         return $this->_container;
@@ -68,6 +74,9 @@ abstract class Highlight_Model_Crawler_Abstract
         return $res;
     }
 
+    /**
+     * returns an array with the necessary information about a row. to identify it
+     */
     protected function _populateArrayFromRow(Centurion_Db_Table_Row_Abstract $row)
     {
         $res = array(

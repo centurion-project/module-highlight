@@ -5,6 +5,9 @@ class Highlight_Test_Model_Crawler_Crawler extends Highlight_Model_Crawler_Abstr
     protected $_table;
 
 
+    /** 
+     * Get a table we can crawl
+     */
     public function getTable()
     {
         if(!is_null($this->_table)) return $this->_table;

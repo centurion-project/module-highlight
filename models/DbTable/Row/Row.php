@@ -1,8 +1,14 @@
 <?php
 
+/**
+ * The row model for an highlight item
+ */
 class Highlight_Model_DbTable_Row_Row extends Centurion_Db_Table_Row_Proxy
 {
 
+    /**
+     * @deprecated
+     */
     public function getBlockHtml(Highlight_Model_FieldMapper_Interface $mapper=null)
     {
         $meta = $this->getProxy()->getTable()->getMeta();
@@ -20,6 +26,11 @@ class Highlight_Model_DbTable_Row_Row extends Centurion_Db_Table_Row_Proxy
         }
     }
 
+    /**
+     * map the current highlight item with the given field mapper
+     * @param $mapper the field mapper to use. use default one if not specified
+     * @return array
+     */
     public function map(Highlight_Model_FieldMapper_Interface $mapper = null)
     {
         if(!$mapper) {

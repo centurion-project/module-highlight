@@ -11,12 +11,16 @@ class Highlight_Test_Model_ContainerTest extends PHPUnit_Framework_TestCase
     
     protected function tearDown()
     {
+        // make sure the test table is empty when we're done
         $table = self::getTable();
         foreach ($table->fetchAll() as $row) {
             $row->delete();
         }
     }
 
+    /**
+     * Return the table to use for these tests
+     */
     public static function getTable()
     {
         return Centurion_Db::getSingleton('highlight/container');

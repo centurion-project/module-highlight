@@ -1,7 +1,8 @@
 <?php
 
 /**
- * a simple crawler that only looks in flatepages
+ * a simple crawler that only looks in the models defined in the config
+ * @todo define config structure
  **/
 class Highlight_Model_Crawler_Default extends Highlight_Model_Crawler_Abstract
 {

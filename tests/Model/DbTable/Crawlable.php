@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Mock table that you can actually crawl
+ */
 class Highlight_Test_Model_DbTable_Crawlable extends Asset_Model_DbTable_Abstract
 {
     protected $_name = 'highlight_crawlable';

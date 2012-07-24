@@ -1,7 +1,8 @@
 <?php
 
 /**
- * 
+ * A factory that makes field mappers from config
+ * @todo config structure
  **/
 class Highlight_Model_FieldMapper_Factory
 {

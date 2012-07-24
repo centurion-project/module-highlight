@@ -2,6 +2,8 @@
 
 /**
  * Maps fields to something readable for highlights
+ * it basically takes any row and format it into a generic associative array
+ * of ('title', 'description', 'url', 'cover')
  **/
 class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper_Interface
 {
@@ -87,6 +89,11 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
     }
 
 
+    /**
+     * After the proxy is mapped, override the returned value with those provided
+     * @param $res the original mapped values
+     * @param $override the values to override
+     */
     public function mapOverride($res, $override)
     {
         $over = array();

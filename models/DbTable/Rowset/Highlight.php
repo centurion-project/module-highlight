@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * @deprecated
+ */
 class Highlight_Model_DbTable_Rowset_Highlight implements SeekableIterator, Countable, ArrayAccess
 {
     protected $_name = null;

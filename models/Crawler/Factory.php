@@ -1,7 +1,10 @@
 <?php
 
 /**
- * 
+ * A factory that makes crawlers from config
+ * it looks for the given crawler name in the config.
+ * then instanciate the proper class
+ * with the params as an array for only parameter
  **/
 class Highlight_Model_Crawler_Factory
 {

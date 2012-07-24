@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @deprecated 
+ */
 class Highlight_Form_Model_Feed extends Centurion_Form_Model_Abstract
 {   
     public function __construct($options = array(), Centurion_Db_Table_Abstract $instance = null)

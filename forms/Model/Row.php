@@ -39,6 +39,7 @@ class Highlight_Form_Model_Row extends Centurion_Form_Model_Abstract // implemen
         $this->addReferenceSubForm($pic, 'cover');
 
 
+        // @todo add info fields about proxy for this highlight
         //$mapper = Highlight_Model_FieldMapper_Factory::get('default');
         //$map = $mapper->map($this->_proxy);
     }

@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * The model table for a highlight container
+ */
 class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
 {
     protected $_name = 'highlight_container';
@@ -77,8 +81,11 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     }
 
     /**
-     * not used yet.
-     * will be used if the spec ever says we need more than one container for a given proxy
+     * create a container with the given proxy and the given name
+     * this allows for multiple container for the same proxy. you can differentiate them by their names
+     * @param $name the name we want our container to have
+     * @param $instance the model to which we want to attach this container
+     * @throws InvalidArgumentException
      * @return Centurion_Db_Table_Row_Abstract
      */
     public function createWithNameAndProxy($name, Centurion_Db_Table_Row_Abstract $instance)
@@ -121,6 +128,13 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
     }
 
 
+    /**
+     * find a container with the given proxy and that has the given name
+     * this should return only one row.
+     * @param $nam the name of the container we want
+     * @param $row the proxy attached to the container we are looking for
+     * @return Centurion_Db_Table_Row_Abstract
+     */
     public function findOneByNameAndProxy($name, Centurion_Db_Table_Row_Abstract $row)
     {
         if(!is_string($name)) {

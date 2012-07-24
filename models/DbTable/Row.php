@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * a row model for a highlight element
+ */
 class Highlight_Model_DbTable_Row extends Centurion_Db_Table_Abstract
 {
     protected $_name = 'highlight_row';

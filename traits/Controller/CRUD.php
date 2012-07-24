@@ -30,6 +30,9 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
     }
 
 
+    /**
+     * Callback function for the grid field to manage highlights for a particular row
+     */
     public function displayManageLink($row)
     {
         list($contentType,) = Centurion_Db::getSingleton('core/content_type')->getOrCreate(array(
@@ -54,6 +57,9 @@ class Highlight_Traits_Controller_CRUD extends Centurion_Traits_Controller_CRUD_
         return sprintf('<a target="_blank" href="%s">%s</a>', $url, $label);
     }
 
+    /**
+     * fetch extraParams for the highlight controller action that the CRUD controller can override
+     */
     protected function _getExtraParams()
     {
         if(!method_exists($this->_controller, 'getAdditionalHighlightUrlParams')) {

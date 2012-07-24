@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * @deprecated
+ */
 abstract class Highlight_Model_Highlight_Abstract
 {
     const LIMIT_AUTOCOMPLETE = 10;

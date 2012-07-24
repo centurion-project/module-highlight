@@ -1,12 +1,24 @@
 <?php
+
+/**
+ * The generic controller for highlights
+ */
 abstract class Highlight_Model_Controller_AdminHighlightController extends Centurion_Controller_Action
 {
+    /**
+     * The current container we are managing
+     */
     protected $_container = null;
+
+    /**
+     * The select object we use for a list of containers
+     */
     protected $_select = null;
     
     public function preDispatch()
     {
         $view   = $this->initView();
+        // make sure our views always get found
         $view->addBasePath($this->getFrontController()->getModuleDirectory('highlight') . DIRECTORY_SEPARATOR . 'views');
         return parent::preDispatch();
     }
@@ -19,10 +31,6 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return '<a href="'.$this->view->url(array('id' => $row->id, 'module' => 'highlight', 'controller' => 'admin-highlight'), 'rest', true).'">'.$this->view->translate('Manage highlight').'</a>';
     }
     
-    public function init()
-    {
-        
-    }
     
     /**
      * implements callback url logic. it looks for a `returnto` parameter and sets any relevant redirection
@@ -36,6 +44,10 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             $this->_response->setRedirect($this->view->url(array('action' => 'get')));
     }
     
+    /**
+     * Lists all containers by their names
+     * if a proxy exists, only lists named containers attached to this proxy
+     */
     public function indexAction()
     {
         $this->view->containers = $this->getContainers();
@@ -62,12 +74,14 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         if($this->_select) return $this->_select;
 
         $this->_select = Centurion_Db::getSingleton('highlight/container')->select(true);
+        // if there's a proxy, only list containers with this proxy
         if($proxy = $this->_getProxy()) {
             $this->_select->filter(array(
                 'proxy_pk'                  => $proxy->pk,
                 'proxy_content_type__name'  => get_class($proxy->getTable())
             ));
         }
+        // else, only list containers with no proxy from config
         else {
             $this->_select->filter(array(
                 'proxy_pk__isnull'  => true
@@ -82,6 +96,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return $this->_select;
     }
 
+    /**
+     * Proxy to the bootstrap static function
+     */
     protected function _getNamedHighlights()
     {
         return Highlight_Bootstrap::listNamedHighlightsInConfig();
@@ -146,6 +163,10 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         return ($this->_getParam('proxy_pk', false) && $this->_getParam('proxy_content_type_id'));
     }
     
+    /**
+     * Gets called from xhr by the autocomplete plugin.
+     * returns a json view of a list of models that matches the query
+     */
     public function autocompleteAction()
     {
         $container = $this->_getContainer();
@@ -189,14 +210,19 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
             }
         }
         
+        // if everything else fails, get default crawler
         if(empty($crawler)) {
             $crawler = Highlight_Model_Crawler_Factory::get('default');
         }
 
+        // some crawlers may need the container we are talking about
         $crawler->setContainer($this->_getContainer());
         return $crawler;
     }
 
+    /**
+     * returns a form object for the autocomplete part
+     */
     public function _getAutocompleteForm()
     {
         $form = new Highlight_Form_Model_Item();
@@ -226,6 +252,9 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         $this->render('admin-highlight/get', true, true);
     }
 
+    /**
+     * gets a mapper for the highlights item we want to display.
+     */
     protected function _getHighlightMapper()
     {
         // return default mapper for now

@@ -1,4 +1,7 @@
 <?php
+/**
+ *
+ */
 class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
 {
     protected $_highlightModel = null;
@@ -53,11 +56,15 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         }
     }
 
-    public function getHighlights($mapper = null, $override = null, $limit = null)
+    /**
+     * Retrieve a list of highlights, ready to use
+     * @param $mapper the mapper to use, default if not specified
+     * @param $override an array of parameters to override those of the given mapper
+     * @param $limit the maximum number of highlights to return
+     * @return array of highlights
+     */
+    public function getHighlights($mapper = 'default', $override = null, $limit = null)
     {
-        if(!$mapper) {
-            $mapper = 'default';
-        }
         if(is_string($mapper)) {
             $mapper = Highlight_Model_FieldMapper_Factory::get($mapper, $override);
         }
