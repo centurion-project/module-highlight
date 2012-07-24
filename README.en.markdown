@@ -1,5 +1,7 @@
 *This module is not documented enough. This should be done soon!*
 
+*If you're looking for a quick HOWTO, you should jump to [#implementation]
+
 # SYNOPSIS 
 An highlight content is an aggregation of many mixed types contents.
 Theoretically, it is possible to add to this collection any content by its type and id.
@@ -84,3 +86,4 @@ Click add, and your item is added and is linked to the flatpage you selected !
 If you repeat the operation you'll find yourself with a bunch of highlight items. you can drap and drop them to reorder
 them. Don't forget to click "save order" at the bottom of the page.
 
+### display
