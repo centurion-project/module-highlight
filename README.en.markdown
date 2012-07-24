@@ -92,7 +92,7 @@ Still using the simplest way here. let's see how, in a view script, we can displ
 
 let's look at this sample code:
 
-```php
+```php+html
 <?php
     echo salut
 ?>
