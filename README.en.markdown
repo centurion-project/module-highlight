@@ -179,3 +179,64 @@ highlights we are editing right now. This is however definitely on the feature l
 
 Well this paragraph is gonna be small. You do exactly the same way as for a named highlights, except you don't give
 a name as a string to the view helper, but the row instance of the content you are handling.
+
+## Overriding default behaviours
+
+What I described until here is what you can achieve using a very tiny amount of code writing or configuration.
+
+This module also provied some base classes and utilities to override the default behaviour of the different entities
+
+### Custom crawlers
+
+The first one you'll probably need to override is the crawler in use for your various highlights containers.
+This is hard to make generic because, we could hardly assume what your specific content type will look like.
+
+#### letting your highlight interface know what crawler to use
+
+There are different ways to tell the admin highlight controller which crawler to use. If it fails finding any, it will
+use the default one.
+
+*url parameter:* add a `crawler` parameter to the url and it will use the crawler by that name from the configuration files.
+You should look how to override the construction of the highlight url in the Highlight_Traits_Controller_CRUD
+
+*in the configuration:* for a named highlight. Instead of adding your name highlight to an array with
+
+```ini
+
+highlight.named_highlights[] = "home_carousel"
+
+```
+
+you can declare it with a crawler as parameter like so:
+
+```ini
+
+highlight.named_highlights.home_carousel.crawler = "my_funny_crawler"
+
+```
+
+Let's start with the hard way, for a change.
+
+#### The hard way: implement the crawler interface
+
+The hard way is actually the simplest to explain. You'll have to implement your own crawler by extending the abstract
+one provided. Let's see what's in there:
+
+* a unique abstract method `crawl`: it takes an array as parameter because, you never really know what to expect.
+Most the time it will be populated with a unique key `query` with a string. It expected in return, an array of rows
+* an `autocomplete` method: You probably don't need to override that one. it only formats the result of `crawl`
+for the highlight controller
+* a `crawlTable` method: This method actually does something. It splits the query string into keywords, and crawls
+a table for the given fields matching these keywords
+
+Obviously, you'll have to start with the `crawl` method. And since you're in your IDE, you probably should have a
+look at the source code.
+
+
+#### The simle way: configure the default crawler
+
+What if I told you, you don't need to write code? You could just configure a crawler, very much like the default one
+which would result in the instanciation of the same class but with different parameters.
+
+The default crawlers reads from its parameters which tables it has to crawl and which fields for each of these tables.
+pretty straightforward. Have a look at the module.ini file to see how the default one is configured.
