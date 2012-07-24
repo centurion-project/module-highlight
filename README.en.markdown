@@ -174,3 +174,8 @@ container to our custom content.
 
 _/!\ Due to some weird urlencoding of callback url parameters, There's no way to return to the content whose
 highlights we are editing right now. This is however definitely on the feature list_
+
+### Retrieving highlights from a content
+
+Well this paragraph is gonna be small. You do exactly the same way as for a named highlights, except you don't give
+a name as a string to the view helper, but the row instance of the content you are handling.
