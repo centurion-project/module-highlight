@@ -136,7 +136,7 @@ this highlight.
 But what if I want to do this on any other article as well? Well, this module lets you attached a highlight container
 by proxy model. In effect, you attach a container to the content of your choice. Let's go through the step of doing so
 
-### Letting now the highlight admin interface what is your current content
+### Letting the highlight admin interface know what is your current content
 
 The highlight admin interface check for various parameters in the url to see if it should manage highlights for a
 specific content. These parameters are:
