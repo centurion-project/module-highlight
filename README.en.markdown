@@ -36,7 +36,7 @@ A field mapper is an object that, given a row, can return an array with, at leas
 
 * title: The title of the highlight item
 * description: a short paragraph about the highlight item
-* url: A link to the highlighted content
+* link: A link to the highlighted content
 * cover: an image to go with the highlighted content
 
 This module provides an Interface and a default mapper that read which fields to read from in a given order.
@@ -103,7 +103,7 @@ let's look at this sample code:
         <li>
             <h3><?php echo $highlight['title'] ?></h3>
             <p><?php echo $highlight['description'] ?></p>
-            <a href="<?php echo $highlight['url'] ?>">
+            <a href="<?php echo $highlight['link'] ?>">
                 <img src="<?php echo $highlight['cover']->getStaticUrl() ?>" />
             </a>
         </li>
@@ -112,4 +112,16 @@ let's look at this sample code:
 <?php endif ?>
 
 ```
+
+* first we retrieve the highlight container object by its name, using the view helper `GetHighlightContainer`.
+* after checking that we actually did get a container we start to display a unordered list
+* we retrieve each highlight item with the `getHighlights` method.
+* for each of those, we display a list element with various information
+
+The `GetHighlightContainer` helper takes a name as parameter and retrieve the corresponding highlight container. we'll
+see later that it can do a bit more than that.
+
+The `getHighlights` method of a container instance returns a collection of mapped arrays of our items. We used it with
+no parameters, but you would in fact be able to override the field mapper in use. The default one is used otherwise.
+
 
