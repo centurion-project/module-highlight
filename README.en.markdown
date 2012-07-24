@@ -92,11 +92,24 @@ Still using the simplest way here. let's see how, in a view script, we can displ
 
 let's look at this sample code:
 
-```phtml
+```php
+
 <?php
-    echo salut
+    $container = $this->getHighlightContainer('home_footer');
 ?>
-<div>coucou</div>
+<?php if($container) : ?>
+    <ul>
+    <?php foreach($container->getHighlights() as $highlight) : ?>
+        <li>
+            <h3><?php echo $highlight['title'] ?></h3>
+            <p><?php echo $highlight['description'] ?></p>
+            <a href="<?php echo $highlight['url'] ?>">
+                <img src="<?php echo $highlight['cover']->getStaticUrl() ?>" />
+            </a>
+        </li>
+    <?php endforeach ?>
+    </ul>
+<?php endif ?>
 
 ```
 
