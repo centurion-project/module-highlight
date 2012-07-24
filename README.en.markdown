@@ -70,12 +70,17 @@ In this example. We created two named highlights that were added to the highligh
 
 How do we edit the content that will show up in these highlights?
 go to the following url on your project: `/highlight/admin-highlight`.
-You will be presented with and interface with one or more blue squares.
-each of these represents an `item`.
-The last one is an empty one, ready to be added. You can add one by clicking on the 'edit' action button.
+
+You will be presented with and interface with one or more blue squares. each of these represents an `item`.
+The last one is an empty one, ready to be added.
+
+You can add one by clicking on the 'edit' action button.
 A form pops up at the top of the page with a text field. If you type in it, you should see some smart autocomplete pop
 just under it. The default crawler looks for flatpages only. but that should do fine for now.
+
+
 Click add, and your item is added and is linked to the flatpage you selected !
+
 If you repeat the operation you'll find yourself with a bunch of highlight items. you can drap and drop them to reorder
 them. Don't forget to click "save order" at the bottom of the page.
 
