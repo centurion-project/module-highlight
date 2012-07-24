@@ -86,4 +86,17 @@ Click add, and your item is added and is linked to the flatpage you selected !
 If you repeat the operation you'll find yourself with a bunch of highlight items. you can drap and drop them to reorder
 them. Don't forget to click "save order" at the bottom of the page.
 
-### display
+### displaying highlights
+
+Still using the simplest way here. let's see how, in a view script, we can display a named highlight.
+
+let's look at this sample code:
+
+```php
+<?php
+    echo salut
+?>
+<div>coucou</div>
+
+```
+
