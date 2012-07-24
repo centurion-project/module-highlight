@@ -153,7 +153,8 @@ Let's open the admin CRUD controller of your favourite content. I like user prof
 
 <?php
 
-class User_AdminProfileController extends Centurion_Controller_CRUD implements Highlight_Traits_Controller_CRUD_Interface
+class User_AdminProfileController extends Centurion_Controller_CRUD
+                                  implements Highlight_Traits_Controller_CRUD_Interface
 {
     public function init()
     {
