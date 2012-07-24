@@ -171,3 +171,6 @@ This is the way Centurion handles traits mechanisms, because not everyone can ge
 What does this trait does? I simply adds, in the crud list, a column at the very end with a link to manage highlights.
 This is the generated url I was talking about. It contains the parameters needed for the highlight admin to attach a
 container to our custom content.
+
+_/!\ Due to some weird urlencoding of callback url parameters, There's no way to return to the content whose
+highlights we are editing right now. This is however definitely on the feature list_
