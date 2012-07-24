@@ -1,6 +1,6 @@
 *This module is not documented enough. This should be done soon!*
 
-*If you're looking for a quick HOWTO, you should jump to [#implementation]
+*If you're looking for a quick HOWTO, you should jump to [The implementation chapter](#implementation).*
 
 # SYNOPSIS 
 An highlight content is an aggregation of many mixed types contents.
