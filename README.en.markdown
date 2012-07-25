@@ -209,7 +209,7 @@ the config array `highlight.crawlers.crawlername`. It then instanciate an object
 add a `crawler` parameter to the url and it will use the crawler by that name from the configuration files.
 You should look how to override the construction of the highlight url in the Highlight_Traits_Controller_CRUD
 
-######in the configuration:
+###### in the configuration:
 
 for a named highlight. Instead of adding your name highlight to an array with
 
@@ -264,4 +264,56 @@ pretty straightforward. Have a look at the module.ini file to see how the defaul
 ### Custom field mappers
 
 As said before, field mappers are little utility objects whose role is to format any single content into a unified structure of data.
+Pretty much any method that needs a field mapper as argument will take either a FieldMapper object or a string for retrieval
+from the factory.
 
+#### Mapper factory
+
+Very much like the Crawler factory, the field mapper factory reads a Mapper's configuration from configuration in
+the `highlight.mappers.*` namespace.
+
+#### Implement the field mapper interface
+
+The interface defines two methods.
+
+* `map(Centurion_Db_Table_Row_Abstract $row)` takes a row of any kind and must return an associative array with the necessary keys for a highlight item
+* `mapRowSet($rowset)` takes a collection of rows (can also be an array) and must return an array of the same size with each entry mapped
+
+When implementing this, make sure you take into account the case where the row given to the map function is an instance
+of `Highlight_Model_DbTable_Row_Row` that is a Highlight entry.
+
+#### Configure the default mapper class
+
+The behaviour of the default field mapper class is for each field it has to find a value for, try a list of field in the
+given row and take the first one that exist and is not empty.
+
+The best way to understand it is to look at the config file
+
+```ini
+
+; config for the default field mapper
+; the class to instanciate
+highlight.mappers.default.className = "Highlight_Model_FieldMapper_Default"
+; each key within the mapper's config describe the components of the final field it names
+; the fields array lists the fields of a row the mappers will look in to find the content of the final field
+highlight.mappers.default.title.fields[] = "title"
+highlight.mappers.default.title.fields[] = "name"
+highlight.mappers.default.link.fields[] = "permalink"
+highlight.mappers.default.link.fields[] = "url"
+highlight.mappers.default.description.fields[] = "abstract"
+highlight.mappers.default.description.fields[] = "intro"
+highlight.mappers.default.description.fields[] = "introduction"
+highlight.mappers.default.description.fields[] = "introduction"
+highlight.mappers.default.description.fields[] = "body"
+highlight.mappers.default.description.fields[] = "description"
+highlight.mappers.default.cover.fields[] = "cover"
+highlight.mappers.default.cover.fields[] = "image"
+highlight.mappers.default.cover.fields[] = "media"
+
+; pixelOnEmpty allows to populate the value with the empty pixel if nothing is set
+highlight.mappers.default.cover.pixelOnEmpty = 1
+
+
+```
+
+As you can see, for each field, we build a list of fields to check to find a value.
