@@ -188,18 +188,30 @@ This module also provied some base classes and utilities to override the default
 
 ### Custom crawlers
 
-The first one you'll probably need to override is the crawler in use for your various highlights containers.
+The first thing you'll probably need to override is the crawler in use for your various highlights containers.
 This is hard to make generic because, we could hardly assume what your specific content type will look like.
+
+_TODO: a wiki page about the crawler component alone_
 
 #### letting your highlight interface know what crawler to use
 
 There are different ways to tell the admin highlight controller which crawler to use. If it fails finding any, it will
 use the default one.
 
-*url parameter:* add a `crawler` parameter to the url and it will use the crawler by that name from the configuration files.
+First of all, you can declare any crawler you like in the configuration in the namespace `highlight.crawlers.*`.
+The crawler Factory (`Highlight_Model_Crawler_Factory::get`) takes a string as first argument. From this string 'crawlername' it reads
+the config array `highlight.crawlers.crawlername`. It then instanciate an object of the class defined in
+`highlight.crawlers.crawlername.className`, giving the whole config array as parameter to the constructor.
+
+
+###### url parameter:
+
+add a `crawler` parameter to the url and it will use the crawler by that name from the configuration files.
 You should look how to override the construction of the highlight url in the Highlight_Traits_Controller_CRUD
 
-*in the configuration:* for a named highlight. Instead of adding your name highlight to an array with
+######in the configuration:
+
+for a named highlight. Instead of adding your name highlight to an array with
 
 ```ini
 
@@ -215,9 +227,16 @@ highlight.named_highlights.home_carousel.crawler = "my_funny_crawler"
 
 ```
 
-Let's start with the hard way, for a change.
+###### In the proxy row:
+
+When managing a highlight of a proxy, if the given proxy row model implement the
+`Highlight_Traits_Model_Row_HasHighlights_Interface` it then has to implement a `getCrawler` method which returns
+-you gessed it- a crawler. This is probably the finer grain of control you can get over which crawler to use for a given content.
+
 
 #### The hard way: implement the crawler interface
+
+Let's start with the hard way, for a change.
 
 The hard way is actually the simplest to explain. You'll have to implement your own crawler by extending the abstract
 one provided. Let's see what's in there:
@@ -240,3 +259,9 @@ which would result in the instanciation of the same class but with different par
 
 The default crawlers reads from its parameters which tables it has to crawl and which fields for each of these tables.
 pretty straightforward. Have a look at the module.ini file to see how the default one is configured.
+
+
+### Custom field mappers
+
+As said before, field mappers are little utility objects whose role is to format any single content into a unified structure of data.
+
