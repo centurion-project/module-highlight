@@ -3,7 +3,7 @@
 *If you're looking for a quick HOWTO, you should jump to [The implementation chapter](#implementation).*
 
 # SYNOPSIS 
-An highlight content is an aggregation of many mixed types contents.
+A highlight content is an aggregation of many mixed types contents.
 Theoretically, it is possible to add to this collection any content by its type and id.
 
 # Concepts and contents
@@ -11,35 +11,35 @@ Theoretically, it is possible to add to this collection any content by its type 
 ## HIGHLIGHT 
 A `highlight` content carries the following information:
 
-* a name. optional but necessary if the highlight can't be found by the content it is attached to.
-* a reference to a content by its type and id. It is possible to find a highlight content from the content it is attached to.
-* a ordered collection of objects representing the contents to bring up. Required. we'll call these objects _items._ These are defined just below
+* __a name.__ optional but necessary if the highlight can't be found by the content it is attached to.
+* __a reference__ to a content by its type and id. It is possible to find a highlight content from the content it is attached to.
+* __a ordered collection of objects__ representing the contents to bring up. Required. we'll call these objects _items._ These are defined just below
 
 ## ITEM 
 An `item` content carries these informations:
 
-* a reference to a mixed typed content. This is the content that will be displayed.
-* an image. optional. Will be used as cover in place of the default one of the linked content.
-* a paragraph. Optional. Will be used as introduction in place of the default one of the linked content.
-* a link. optional. Will be used as replacement for the permalink of the linked content.
+* __a reference__ to a mixed typed content. This is the content that will be displayed.
+* __an image__. optional. Will be used as cover in place of the default one of the linked content.
+* __a paragraph__. Optional. Will be used as introduction in place of the default one of the linked content.
+* __a link__. optional. Will be used as replacement for the permalink of the linked content.
 
 ## CRAWLER
 A `crawler` is an object that, given a specific query, can return a list of contents that match this query.
 This module provides an abstract crawler. that has close to no crawling logic. it could have been an interface.
-it also provides a default crawler. That is configurable and can crawler through tables with keywords.
+it also provides a default crawler. That is configurable and can crawl through tables with keywords.
 have a look at `Highlight_Model_Crawler_Abstract` and `Highlight_Model_Crawler_Default` as well as the module config 
 
 ## FIELD MAPPER
-Because the contents returned in a highlight can be of such different structure. it is necessary, when you need
+Because the contents returned in a highlight can be of such different structures, it is necessary, when you need
 to display them, to have simple tools to unify these structures a little.
 A field mapper is an object that, given a row, can return an array with, at least, the following fields
 
-* title: The title of the highlight item
-* description: a short paragraph about the highlight item
-* link: A link to the highlighted content
-* cover: an image to go with the highlighted content
+* __title__: The title of the highlight item
+* __description__: a short paragraph about the highlight item
+* __link__: A link to the highlighted content
+* __cover__: an image to go with the highlighted content
 
-This module provides an Interface and a default mapper that read which fields to read from in a given order.
+This module provides an Interface and a default mapper that reads which fields to check in a given order.
 have a look at the module config files and the field mapper classes.
 Of course, if the `item` itself defines any of the fields described above, those will see themselves overriden
 
