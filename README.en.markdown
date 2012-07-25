@@ -285,6 +285,8 @@ As said before, field mappers are little utility objects whose role is to format
 Pretty much any method that needs a field mapper as argument will take either a FieldMapper object or a string for retrieval
 from the factory.
 
+_TODO: a wiki page about the crawler component alone_
+
 #### Mapper factory
 
 Very much like the Crawler factory, the field mapper factory reads a Mapper's configuration from configuration in
