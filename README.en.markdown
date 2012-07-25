@@ -261,6 +261,24 @@ The default crawlers reads from its parameters which tables it has to crawl and 
 pretty straightforward. Have a look at the module.ini file to see how the default one is configured.
 
 
+```ini
+
+; the class to instanciate
+highlight.crawlers.default.className = "Highlight_Model_Crawler_Default";
+
+; each key of the config defines a model it has to crawl
+; the table config define which table it has to crawl
+; the fields config array lists the fields in which to look for matches with the query terms
+highlight.crawlers.default.models.profile.table = "user/profile";
+highlight.crawlers.default.models.profile.fields[] = "nickname"
+highlight.crawlers.default.models.profile.fields[] = "user__email"
+highlight.crawlers.default.models.flatpages.table = "cms/flatpage";
+highlight.crawlers.default.models.flatpages.fields[] = "title";
+highlight.crawlers.default.models.flatpages.fields[] = "url";
+highlight.crawlers.default.models.flatpages.fields[] = "slug";
+
+```
+
 ### Custom field mappers
 
 As said before, field mappers are little utility objects whose role is to format any single content into a unified structure of data.
