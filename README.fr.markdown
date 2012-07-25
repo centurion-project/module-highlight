@@ -188,12 +188,9 @@ un comportement générique puisqu'on ne peut pas connaître les objets métier 
 
 #### Dire à l'interface d'aministration quel crawler utiliser
 
-There are different ways to tell the admin highlight controller which crawler to use. If it fails finding any, it will
-use the default one.
 Il y a plusieurs manières de définir quel crawler doit être utilisé par l'interface d'aministration. Si aucune ne donne de résultat,
 le crawler par défaut sera utilisé.
 
-First of all, you can declare any crawler you like in the configuration in the namespace `highlight.crawlers.*`.
 Avant toute chose, vous pouvez déclarer des crawlers dans les fichiers de configuration dans le namespace `highlight.crawlers.*`.
 La Crawler Factory (`Highlight_Model_Crawler_Factory::get`) prend en paramètre le nom d'un crawler. D'après ce nom 'crawlername', elle lit
 La configuration dans `highlight.crawlers.crawlername`. Elle instancie un objet de la classe définie dans
@@ -226,12 +223,11 @@ highlight.named_highlights.home_carousel.crawler = "my_funny_crawler"
 ###### Dans la row du contenu :
 
 Lorsque l'on gère les highlight d'un contenu, si la row de ce modèle implémente l'interface
-`Highlight_Traits_Model_Row_HasHighlights_Interface` it then has to implement a `getCrawler` method which returns
 `Highlight_Traits_Model_Row_HasHighlights_Interface` et doit donc définir un méthode getCrawler qui retourne le crawler à
 utiliser lorsqu'on doit ajouter des highlight items à cette row.
 
 
-#### The hard way: implement the c
+#### The hard way: implement the crawler interface
 
 Let's start with the hard way, for a change.
 
