@@ -47,9 +47,9 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
     {
         if($row instanceof Highlight_Model_DbTable_Row_Row) {
             $proxy = $row->getProxy();
+            $override = $row->toArray();
+            $override['cover'] = $row->cover;
             if($proxy) {
-                $override = $row->toArray();
-                $override['cover'] = $row->cover;
                 $row = $proxy;
             }
         }
