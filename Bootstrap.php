@@ -47,7 +47,7 @@ class Highlight_Bootstrap extends Centurion_Application_Module_Bootstrap
      */
     static public function listNamedHighlightsInConfig()
     {
-        $namedHighlights = Centurion_Config_Manager::get('highlight.named_highlights');
+        $namedHighlights = Centurion_Config_Manager::get('highlight.named_highlights', array());
         $res = array();
         foreach ($namedHighlights as $key => $name) {
             // if the value is an array, then the name is the key
