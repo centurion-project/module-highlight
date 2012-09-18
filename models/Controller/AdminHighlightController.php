@@ -247,20 +247,45 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
         )));
         $this->view->autoCompleteForm = $form;
 
-        $this->view->highlightMapper = $this->_getHighlightMapper();
+        $this->view->highlightMapper = $this->getMapper();
 
         $this->render('admin-highlight/get', true, true);
     }
 
     /**
-     * gets a mapper for the highlights item we want to display.
+     * returns the mapper to be used upon listing of the highlight
+     * @return Highlight_Model_Mapper_Interface
      */
-    protected function _getHighlightMapper()
+    public function getMapper()
     {
-        // return default mapper for now
-        return Highlight_Model_FieldMapper_Factory::get('default');
+        // maybe there was a crawler parameter in the url
+        // we can try and find it from config.
+        if($this->_getParam('mapper', false)) {
+            $mapperName = $this->_getParam('mapper');
+            $mapper = Highlight_Model_Mapper_Factory::get($mapperName);
+        }
+
+        // maybe the container is a named container and has a mapper in its config
+        if($container = $this->_getContainer()) {
+            if(!empty($container->name)) {
+                $name = $container->name;
+                $mapperName = Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.mapper', $name));
+                if($mapperName) {
+                    $mapper = Highlight_Model_FieldMapper_Factory::get($mapperName);
+                }
+            }
+        }
+        
+        // if everything else fails, get default mapper
+        if(empty($mapper)) {
+            $mapper = Highlight_Model_FieldMapper_Factory::get('default');
+        }
+
+        // some mappers may need the container we are talking about
+        //$mapper->setContainer($this->_getContainer());
+        return $mapper;
     }
-    
+
     public function addAction()
     {
         $form = $this->_getAutocompleteForm();

@@ -24,7 +24,12 @@ class Highlight_Model_FieldMapper_Default implements Highlight_Model_FieldMapper
                 continue;
             }
 
-            $this->_pixelOnEmpty = $params['cover']['pixelOnEmpty'] > 0;
+            if(isset($params['cover']) && isset($params['cover']['pixelOnEmpty'])) {
+                $this->_pixelOnEmpty = $params['cover']['pixelOnEmpty'] > 0;
+            }
+            else {
+                $this->_pixelOnEmpty = false;
+            }
 
             $this->_fieldMap[$field] = $fields;
         }
