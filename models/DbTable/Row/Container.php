@@ -91,7 +91,7 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
             return 'default';
         }
         else {
-            return Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.mapper', $name), 'default');
+            return Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.mapper', $this->name), 'default');
         }
     }
 
