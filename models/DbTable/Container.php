@@ -48,6 +48,8 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
 
         list($container, $created) = $this->getOrCreate(array(
             'name'                  => $name,
+            'proxy_content_type_id' => null,
+            'proxy_pk'              => null
         ));
         if(!$created) {
             throw new InvalidArgumentException('There already is a container by that name');
@@ -68,6 +70,7 @@ class Highlight_Model_DbTable_Container extends Centurion_Db_Table_Abstract
         $modelName = $instance->getTableClass();
         list($model, $created) = Centurion_Db::getSingleton('core/content_type')->getOrCreate(array('name'=>$modelName));
         list($container, $created) = $this->getOrCreate(array(
+            'name'                  => null,
             'proxy_content_type_id' => $model->id,
             'proxy_pk'              => $instance->pk
         ));
