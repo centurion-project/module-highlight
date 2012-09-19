@@ -235,6 +235,7 @@ abstract class Highlight_Model_Controller_AdminHighlightController extends Centu
     public function getAction()
     {
         $this->view->container = $this->_getContainer();
+        $this->view->proxy = $this->_getProxy();
         if($backUrl = $this->_getParam('returnafter', false)) {
             $this->view->backUrl = urldecode($backUrl);
         }

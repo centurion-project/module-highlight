@@ -38,6 +38,14 @@ class Highlight_AdminRowController extends Centurion_Controller_CRUD //implement
         parent::newAction();
     }
 
+    public function postAction()
+    {
+        $container = $this->_getContainer();
+        $this->_getForm()->addElement('hidden', 'container_id', array('value'=>$container->id));
+
+        parent::postAction();
+    }
+
     protected function _getContainer()
     {
         if (!isset($this->_container)) {

@@ -63,8 +63,11 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
      * @param $limit the maximum number of highlights to return
      * @return array of highlights
      */
-    public function getHighlights($mapper = 'default', $override = null, $limit = null)
+    public function getHighlights($mapper = null, $override = null, $limit = null)
     {
+        if(is_null($mapper)) {
+            $mapper = $this->_getDefaultMapperName();
+        }
         if(is_string($mapper)) {
             $mapper = Highlight_Model_FieldMapper_Factory::get($mapper, $override);
         }
@@ -76,6 +79,20 @@ class Highlight_Model_DbTable_Row_Container extends Centurion_Db_Table_Row_Proxy
         $res = $mapper->mapRowSet($rowset);
 
         return $res;
+    }
+
+    /**
+     * Returns the default mapper for this highlight
+     * 'default' is nothing else is defined in config for a named highlight
+     */
+    protected function _getDefaultMapperName()
+    {
+        if(empty($this->name)) {
+            return 'default';
+        }
+        else {
+            return Centurion_Config_Manager::get(sprintf('highlight.named_highlights.%s.mapper', $name), 'default');
+        }
     }
 
 }

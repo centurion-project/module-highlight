@@ -1,5 +1,14 @@
 <?php
-$this->placeholder('headling_1')->set('<h1>Manage highlights of: ' . $this->smartTextCrop($this->container->title, 60) . '</h1>');
+if($this->proxy) {
+    $title = $this->translate('Manage highlights of: %s (%s)',
+                              $this->smartTextCrop($this->container->title, 60),
+                              $this->smartTextCrop($this->proxy->__toString(), 30)
+             );
+}
+else {
+    $title = $this->translate('Manage highlights of: %s', $this->smartTextCrop($this->container->title, 60));
+}
+$this->placeholder('headling_1')->set('<h1>'.$title.'</h1>');
 ?>
 <style type="text/css">
     .hl-item {width: 275px; height: 100px;}
@@ -43,8 +52,6 @@ $(function(){
     });
 });
 
-var url = {'article' : "<?php echo $this->url(array('module' => 'vinsoc', 'controller' => 'admin-article', 'action' => 'new', '_next' => $this->url(array('id' => $this->container->id, 'action' => 'add', 'position' => '___position___', 'pk' => '___pk___', 'model' => 'Vinsoc_Model_DbTable_Row_Article', 'returnto' => $this->url()))))?>"
-        };
       
       
 $(function(){
@@ -55,10 +62,12 @@ $(function(){
     });
 });
 
-
+;
 
 <?php $this->headScript()->captureEnd(); ?>
-
+    <?php if(!empty($this->backUrl)) : ?>
+    <p><a href="<?php echo $this->backUrl ?>"><?php echo $this->translate('Back') ?></a></p>
+    <?php endif ?>
     <div>
         <?php if(isset($this->errors)) : ?>
         <div class="ui-state-message">

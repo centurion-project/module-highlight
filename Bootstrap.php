@@ -34,6 +34,7 @@ class Highlight_Bootstrap extends Centurion_Application_Module_Bootstrap
             foreach ($namedHighlights as $name) {
                 if(!isset($existing[$name])) {
                     $containerModel->createWithName($name);
+                    $existing[$name] = true;
                 }
             }
         }
