@@ -6,7 +6,10 @@ else {
     $this->placeholder('headling_1')->set('<h1>Manage named highlights</h1>');
 }
 ?>
-<?php
-foreach ($this->containers as $container) {
-    echo '<a href="' . $this->url(array('action' => 'get', 'id' => $container->id)) . '">' . $container->name . '</a><br />';
-}
+<ul>
+<?php foreach ($this->containers as $container) : ?>
+    <li>
+    <a href="<?php echo $this->url(array('action' => 'get', 'id' => $container->id))?>"> <?php echo $container->title ?></a><br />
+    </li>
+<?php endforeach ?>
+</ul>

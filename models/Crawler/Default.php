@@ -27,7 +27,7 @@ class Highlight_Model_Crawler_Default extends Highlight_Model_Crawler_Abstract
 
         $this->_models = $params['models'];
 
-        parent::__construct();
+        parent::__construct($params);
     }
 
     public function crawl(array $params=null)
