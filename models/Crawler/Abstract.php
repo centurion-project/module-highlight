@@ -97,12 +97,12 @@ abstract class Highlight_Model_Crawler_Abstract
      * @param (string) $terms a string contains terms or keywords to look for
      * @return [Centurion_Db_Table_Row_Abstract]
      */
-    public function crawlTable(Centurion_Db_Table_Abstract $table, array $fields, $terms, $limit=0, $select = null)
+    public function crawlTable(Centurion_Db_Table_Abstract $table, array $fields, $terms, $limit=0, $select = null, $key = null)
     {
         if(null === $select) {
             $select = $table->select(true);
         }
-        $this->selectKeywordsInTextFields($select, $fields, $terms);
+        $this->selectKeywordsInTextFields($select, $fields, $terms, $key);
         if(0 < $limit) {
             $select->limit($limit);
         }
@@ -138,8 +138,11 @@ abstract class Highlight_Model_Crawler_Abstract
      * @param (string) $terms the keywords to look for
      * @return Centurion_Db_Table_Select
      */
-    public function selectKeywordsInTextFields($select, $fields, $terms)
+    public function selectKeywordsInTextFields($select, $fields, $terms, $key)
     {
+        if(empty($key)) {
+            $key = 'id';
+        }
         $columns = (array) $fields;
         // make sure we only filter on columns that exist
         $columns = array_filter($columns, array($select->getTable(), 'hasColumn'));
@@ -149,7 +152,7 @@ abstract class Highlight_Model_Crawler_Abstract
         // this is because it is very difficult to manage OR operator with the Zend Select object
         $keywordsSelect = $select->getTable()->select(true);
         $keywordsSelect->reset(Zend_Db_Select::COLUMNS);
-        $keywordsSelect->columns(array('id'));
+        $keywordsSelect->columns(array($key));
         // split the terms parameter into words
         $terms = explode(' ', $terms);
         $first = true;
@@ -174,7 +177,7 @@ abstract class Highlight_Model_Crawler_Abstract
         // construct the subrequest expression from this select
         $expr = new Zend_Db_Expr('('.$keywordsSelect->__toString().')');
         // the subrequest returns a set of ids that match the keywords
-        $select->filter(array('id__in' => $expr));
+        $select->filter(array($key.'__in' => $expr));
 
         return $select;
     }
