@@ -44,7 +44,7 @@ class Highlight_Model_FieldMapper_Factory
     {
         foreach($Arr2 as $key => $Value) {
             if(array_key_exists($key, $Arr1) && is_array($Value))
-            $Arr1[$key] = static::_mergeArrays($Arr1[$key], $Arr2[$key]);
+            $Arr1[$key] = self::_mergeArrays($Arr1[$key], $Arr2[$key]);
 
             else
             $Arr1[$key] = $Value;
