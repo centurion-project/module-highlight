@@ -8,7 +8,7 @@ if($this->proxy) {
 else {
     $title = $this->translate('Manage highlights of: %s', $this->smartTextCrop($this->container->title, 60));
 }
-$this->placeholder('headling_1')->set('<h1>'.$title.'</h1>');
+$this->placeholder('headling_1')->set('<h1>'.$title.'</h1>'. '<a href="' . $this->url(array('module' => 'highlight', 'controller' => 'admin-highlight', 'action' => 'index')) . '">' . $this->translate('Back') . '</a>');
 ?>
 <style type="text/css">
     .hl-item {width: 275px; height: 100px;}
