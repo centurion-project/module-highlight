@@ -21,6 +21,8 @@ class Highlight_AdminRowController extends Centurion_Controller_CRUD //implement
         $this->view->placeholder('headling_1_content')->set($this->view->translate('Manage Highlight@backoffice,cms'));
         $this->view->placeholder('headling_1_add_button')->set($this->view->translate('highlight@backoffice,cms'));
         
+        //To conserv it into the request
+        $this->_extraParam['container'] = $this->getRequest()->getParam('container',0);
         parent::init();
     }
     
@@ -50,7 +52,7 @@ class Highlight_AdminRowController extends Centurion_Controller_CRUD //implement
     {
         if (!isset($this->_container)) {
                 $model = Centurion_Db::getSingleton('highlight/container');
-                $this->_container = $model->findOneById($this->_getParam('container', 0));
+                $this->_container = $model->findOneById($this->_extraParam['container']);
         }
         return $this->_container;
     }
